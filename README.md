@@ -19,17 +19,26 @@
 
 ## 开发者指南
 
-本项目使用 Minecraft Forge 1.20.1 和 Gradle 构建。
+本项目使用 Minecraft Forge 1.20.1 和 Gradle 构建，需要 JDK17 以上。
 
+- 获取并设置项目环境
 1.  **克隆仓库**：
     ```bash
     git clone https://github.com/currkil/HBM-s-Nuclear-Tech-Mod-PlusPlus-Edition.git
     ```
 2.  **导入IDE**：使用 IntelliJ IDEA 或 Eclipse 作为项目文件夹导入。
 3.  **生成运行配置**：
-    *   **IntelliJ IDEA**: 在终端中运行 `./gradlew genIntellijRuns` (Windows 使用 `gradlew genIntellijRuns`)。
+    *   **IntelliJ IDEA**: 在终端中运行 `./gradlew genIntellijRuns`。
     *   **Eclipse**: 运行 `./gradlew eclipse`。
-4.  **运行客户端**：在 IDEA 中运行 `runClient` 这个 Gradle 任务。
+
+- 不等待模组发布体验最新的模组
+1.  **执行 编辑或使用此模组的代码 中的步骤**
+2.  **运行客户端**：在 IDEA 中运行 `./gradlew runClient` 这个 Gradle 任务。
+
+- 不等待模组发布自行编译最新的jar文件
+1.  **执行 编辑或使用此模组的代码 中的步骤**
+2.  **生成jar文件**：在 IDEA 中运行 `./gradlew build` 这个 Gradle 任务
+3.  **寻找jar文件**：在 ` 项目/build/libs/ ` 中找到jar文件
 
 ## 许可证与致谢
 
