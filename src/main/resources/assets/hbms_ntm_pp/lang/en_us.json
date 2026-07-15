@@ -1,5 +1,12 @@
 {
   "item.hbms_ntm_pp.steel_ingot": "Steel Ingot",
+  "item.hbms_ntm_pp.drillbit_steel": "Steel Drillbit",
+  "item.hbms_ntm_pp.template_folder": "Machine Template Folder",
+  "item.hbms_ntm_pp.bottle_nuka": "Bottle of Nuka Cola",
+  "item.hbms_ntm_pp.bottle_opener": "Hbm's Own Self-Made Bottle Opener",
+  "item.hbms_ntm_pp.bottle_empty": "Empty Bomb-Shaped Bottle",
+  "item.hbms_ntm_pp.cap_nuka": "Nuka Cola Bottle Cap",
+  "item.hbms_ntm_pp.booms/man_igniter": "Igniter[Fat Man]",
 
   "itemGroup.consumable_tab": "NTM Consumables and Gears",
   "itemGroup.block_tab": "NTM Ores and Blocks",
@@ -9,5 +16,7 @@
   "itemGroup.nuke_tab": "NTM Bombs",
   "itemGroup.parts_tab": "NTM Resources and Parts",
   "itemGroup.template_tab": "NTM Template",
-  "itemGroup.weapon_tab": "NTM Weapons and Turrets"
+  "itemGroup.weapon_tab": "NTM Weapons and Turrets",
+
+  "message.no_opener": "You need an opener."
 }

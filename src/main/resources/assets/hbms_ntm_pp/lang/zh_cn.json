@@ -1,5 +1,12 @@
 {
   "item.hbms_ntm_pp.steel_ingot": "钢锭",
+  "item.hbms_ntm_pp.drillbit_steel": "钢钻头",
+  "item.hbms_ntm_pp.template_folder": "机器模板文件夹",
+  "item.hbms_ntm_pp.bottle_nuka": "核子可乐",
+  "item.hbms_ntm_pp.bottle_opener": "HBM自制开瓶器",
+  "item.hbms_ntm_pp.bottle_empty": "空可乐瓶",
+  "item.hbms_ntm_pp.cap_nuka": "核子可乐瓶盖",
+  "item.hbms_ntm_pp.booms/man_igniter": "点火器[胖子]",
 
   "itemGroup.consumable_tab": "HBM食物和装备",
   "itemGroup.block_tab": "HBM矿石和方块",
@@ -9,5 +16,7 @@
   "itemGroup.nuke_tab": "HBM炸弹",
   "itemGroup.parts_tab": "HBM资源和零件",
   "itemGroup.template_tab": "HBM模板",
-  "itemGroup.weapon_tab": "HBM武器和炮塔"
+  "itemGroup.weapon_tab": "HBM武器和炮塔",
+
+  "message.no_opener": "你需要一个开瓶器。"
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "hbms_ntm_pp:item/bottle_empty"
+  }
+}
