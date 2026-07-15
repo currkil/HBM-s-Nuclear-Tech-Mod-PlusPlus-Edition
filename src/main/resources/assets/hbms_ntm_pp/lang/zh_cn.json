@@ -1,0 +1,13 @@
+{
+  "item.hbms_ntm_pp.steel_ingot": "钢锭",
+
+  "itemGroup.consumable_tab": "HBM食物和装备",
+  "itemGroup.block_tab": "HBM矿石和方块",
+  "itemGroup.control_tab": "HBM机器项目和燃料",
+  "itemGroup.machine_tab": "HBM机器",
+  "itemGroup.missile_tab": "HBM导弹和卫星",
+  "itemGroup.nuke_tab": "HBM炸弹",
+  "itemGroup.parts_tab": "HBM资源和零件",
+  "itemGroup.template_tab": "HBM模板",
+  "itemGroup.weapon_tab": "HBM武器和炮塔"
+}

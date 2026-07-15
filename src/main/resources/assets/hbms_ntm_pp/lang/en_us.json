@@ -1,0 +1,13 @@
+{
+  "item.hbms_ntm_pp.steel_ingot": "Steel Ingot",
+
+  "itemGroup.consumable_tab": "NTM Consumables and Gears",
+  "itemGroup.block_tab": "NTM Ores and Blocks",
+  "itemGroup.control_tab": "NTM Machine Items and Fuel",
+  "itemGroup.machine_tab": "NTM Machines",
+  "itemGroup.missile_tab": "NTM Missiles and Satellites",
+  "itemGroup.nuke_tab": "NTM Bombs",
+  "itemGroup.parts_tab": "NTM Resources and Parts",
+  "itemGroup.template_tab": "NTM Template",
+  "itemGroup.weapon_tab": "NTM Weapons and Turrets"
+}
