@@ -1,6 +1,7 @@
 package currkill.hbms_ntm_pp;
 
 import com.mojang.logging.LogUtils;
+import currkill.hbms_ntm_pp.block.modBlocks;
 import currkill.hbms_ntm_pp.item.modItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
@@ -36,6 +37,7 @@ public class Hbms_ntm_pp {
         //调用总线
         modItems.register(modEventBus);
         modCreativeModeTab.register(modEventBus);
+        modBlocks.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

@@ -3,12 +3,12 @@ package currkill.hbms_ntm_pp.item;
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+//注册常规物品
 public class modItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Hbms_ntm_pp.MODID);
@@ -33,11 +33,7 @@ public class modItems {
                     .alwaysEat()
                     .build())));//核子可乐
     public static final RegistryObject<Item> BOTTLE_OPENER =
-            ITEMS.register("bottle_opener", ()-> new modOpenerItem(
-                    Tiers.IRON,
-                    1,
-                    -2.4F,
-                    new Item.Properties().stacksTo(1)));//hbm自制开瓶器
+            ITEMS.register("bottle_opener", ()-> new modOpenerItem(new Item.Properties(),4.5F));//hbm自制开瓶器
     public static final RegistryObject<Item> BOTTLE_EMPTY =
             ITEMS.register("bottle_empty", ()-> new Item(new Item.Properties()));//空可乐瓶
     public static final RegistryObject<Item> CAP_NUKA =

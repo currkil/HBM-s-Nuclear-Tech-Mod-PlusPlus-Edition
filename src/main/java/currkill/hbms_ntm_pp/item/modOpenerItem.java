@@ -1,22 +1,45 @@
 package currkill.hbms_ntm_pp.item;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
-public class modOpenerItem extends SwordItem { // 1. 继承 Item
+import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
+
+//开瓶器攻击相关
+public class modOpenerItem extends Item {
     private static final Random RANDOM = new Random();
-    public modOpenerItem(Tier tier, int attackDamage, float attackSpeed, Properties pProperties) {
-        super(tier, attackDamage, attackSpeed, pProperties);
+    private final float attackDamage;
+    private final ImmutableMultimap<Attribute, AttributeModifier> deafaultModifiers;
+    public modOpenerItem(Properties pProperties,float attackDamage) {
+        super(pProperties);
+        this.attackDamage = attackDamage;
+
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(ATTACK_DAMAGE,
+                new AttributeModifier(BASE_ATTACK_DAMAGE_UUID,"Weapon modifier",
+                        this.attackDamage, AttributeModifier.Operation.ADDITION));
+        this.deafaultModifiers = builder.build();
+    }
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        if (slot == EquipmentSlot.MAINHAND) {
+            return this.deafaultModifiers;
+        }
+        return super.getAttributeModifiers(slot, stack);
     }
 
     @Override
@@ -36,22 +59,13 @@ public class modOpenerItem extends SwordItem { // 1. 继承 Item
             if (RANDOM.nextInt(7) == 0) {
                 int effectIndex = RANDOM.nextInt(4);
                 int duration = 5 * 60 * 20; // 5分钟
-                MobEffectInstance effect = null;
-
-                switch (effectIndex) {
-                    case 0:
-                        effect = new MobEffectInstance(MobEffects.BLINDNESS, duration, 0);
-                        break;
-                    case 1:
-                        effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 2);
-                        break;
-                    case 2:
-                        effect = new MobEffectInstance(MobEffects.DIG_SLOWDOWN, duration, 2);
-                        break;
-                    case 3:
-                        effect = new MobEffectInstance(MobEffects.CONFUSION, 60 * 20, 0);
-                        break;
-                }
+                MobEffectInstance effect = switch (effectIndex) {
+                    case 0 -> new MobEffectInstance(MobEffects.BLINDNESS, duration, 0);
+                    case 1 -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 2);
+                    case 2 -> new MobEffectInstance(MobEffects.DIG_SLOWDOWN, duration, 2);
+                    case 3 -> new MobEffectInstance(MobEffects.CONFUSION, 60 * 20, 0);
+                    default -> null;
+                };
 
                 if (effect != null) {
                     pTarget.addEffect(effect);

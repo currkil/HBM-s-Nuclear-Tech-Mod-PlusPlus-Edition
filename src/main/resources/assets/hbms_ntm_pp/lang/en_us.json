@@ -6,7 +6,9 @@
   "item.hbms_ntm_pp.bottle_opener": "Hbm's Own Self-Made Bottle Opener",
   "item.hbms_ntm_pp.bottle_empty": "Empty Bomb-Shaped Bottle",
   "item.hbms_ntm_pp.cap_nuka": "Nuka Cola Bottle Cap",
-  "item.hbms_ntm_pp.booms/man_igniter": "Igniter[Fat Man]",
+  "item.hbms_ntm_pp.booms.man_igniter": "Igniter[Fat Man]",
+
+  "block.hbms_ntm_pp.steel_block": "Block of steel",
 
   "itemGroup.consumable_tab": "NTM Consumables and Gears",
   "itemGroup.block_tab": "NTM Ores and Blocks",

@@ -1,5 +1,6 @@
 package currkill.hbms_ntm_pp;
 
+import currkill.hbms_ntm_pp.block.modBlocks;
 import currkill.hbms_ntm_pp.item.modItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -9,6 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+//创建创造模式物品栏
 public class modCreativeModeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Hbms_ntm_pp.MODID);
@@ -43,10 +45,10 @@ public class modCreativeModeTab {
     //矿石和方块 Ores and Blocks
     public static final RegistryObject<CreativeModeTab> BLOCK_TAB =
             CREATIVE_MODE_TABS.register("block_tab", () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
+                    .icon(() -> new ItemStack(modBlocks.STEEL_BLOCK.get()))
                     .title(Component.translatable("itemGroup.block_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        //pOutput.accept(modItems.STEEL_INGOT.get());
+                        pOutput.accept(modBlocks.STEEL_BLOCK.get());
                     }).withTabsBefore(TEMPLATE_TAB.getKey())
                     .build());
     //机器 Machines

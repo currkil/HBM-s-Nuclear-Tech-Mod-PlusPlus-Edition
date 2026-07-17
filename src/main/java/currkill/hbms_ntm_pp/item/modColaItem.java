@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+//处理可乐相关事件，使用开瓶器与效果相关
 public class modColaItem  extends Item {
     public modColaItem(Properties pProperties) {
         super(pProperties);
@@ -25,7 +26,7 @@ public class modColaItem  extends Item {
 
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200*20, 1));
             player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 200*20, 1));
-            //预留辐射
+            //预留辐射，后期制作
 
             if(!player.getInventory().add(new ItemStack(modItems.BOTTLE_EMPTY.get()))){
                 player.drop(new ItemStack(modItems.BOTTLE_EMPTY.get()),false);
