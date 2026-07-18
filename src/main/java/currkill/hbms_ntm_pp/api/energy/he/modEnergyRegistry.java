@@ -47,5 +47,6 @@ public class modEnergyRegistry {
     }
     public double getFillRatio() {
         return (double) energy / (double) maxPower;
-    }//逻辑判断类
+    }
+    //逻辑判断类
 }

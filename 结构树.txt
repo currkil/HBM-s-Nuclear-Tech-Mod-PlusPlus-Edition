@@ -1,0 +1,406 @@
+Folder PATH listing
+Volume serial number is 7162-2482
+F:.
+│   .gitignore
+│   build.gradle
+│   gradle.properties
+│   LICENSE
+│   README.md
+│   settings.gradle
+│   结构树.txt
+│   获取结构目录.bat
+│   
+├───.gradle
+│   │   file-system.probe
+│   │   
+│   ├───8.8
+│   │   │   gc.properties
+│   │   │   
+│   │   ├───checksums
+│   │   │       checksums.lock
+│   │   │       md5-checksums.bin
+│   │   │       sha1-checksums.bin
+│   │   │       
+│   │   ├───dependencies-accessors
+│   │   │       gc.properties
+│   │   │       
+│   │   ├───executionHistory
+│   │   │       executionHistory.bin
+│   │   │       executionHistory.lock
+│   │   │       
+│   │   ├───expanded
+│   │   │       expanded.lock
+│   │   │       
+│   │   ├───fileChanges
+│   │   │       last-build.bin
+│   │   │       
+│   │   ├───fileHashes
+│   │   │       fileHashes.bin
+│   │   │       fileHashes.lock
+│   │   │       resourceHashesCache.bin
+│   │   │       
+│   │   └───vcsMetadata
+│   ├───buildOutputCleanup
+│   │       buildOutputCleanup.lock
+│   │       cache.properties
+│   │       outputFiles.bin
+│   │       
+│   └───vcs-1
+│           gc.properties
+│           
+├───.idea
+│   │   .gitignore
+│   │   .name
+│   │   compiler.xml
+│   │   gradle.xml
+│   │   jarRepositories.xml
+│   │   misc.xml
+│   │   modules.xml
+│   │   uiDesigner.xml
+│   │   vcs.xml
+│   │   workspace.xml
+│   │   
+│   ├───inspectionProfiles
+│   │       Project_Default.xml
+│   │       
+│   └───modules
+│           hbms_ntm_pp.main.iml
+│           hbms_ntm_pp.test.iml
+│           
+├───build
+│   ├───classes
+│   │   └───java
+│   │       └───main
+│   │           └───currkill
+│   │               └───hbms_ntm_pp
+│   │                   │   Config.class
+│   │                   │   Hbms_ntm_pp$ClientModEvents.class
+│   │                   │   Hbms_ntm_pp.class
+│   │                   │   modCreativeModeTab.class
+│   │                   │   
+│   │                   ├───api
+│   │                   │   └───energy
+│   │                   │       └───he
+│   │                   │               modEnergyConnector.class
+│   │                   │               modEnergyRegistry.class
+│   │                   │               
+│   │                   ├───block
+│   │                   │       modBlocks.class
+│   │                   │       
+│   │                   └───item
+│   │                           modColaItem.class
+│   │                           modItems.class
+│   │                           modOpenerItem.class
+│   │                           
+│   ├───classpath
+│   │       runClient_minecraftClasspath.txt
+│   │       
+│   ├───createMcpToSrg
+│   │       output.tsrg
+│   │       
+│   ├───createSrgToMcp
+│   │       output.srg
+│   │       
+│   ├───downloadMCMeta
+│   │       version.json
+│   │       
+│   ├───downloadMcpConfig
+│   │       output.zip
+│   │       
+│   ├───extractSrg
+│   │       output.srg
+│   │       
+│   ├───generated
+│   │   └───sources
+│   │       ├───annotationProcessor
+│   │       │   └───java
+│   │       │       └───main
+│   │       └───headers
+│   │           └───java
+│   │               └───main
+│   ├───natives
+│   ├───resources
+│   │   └───main
+│   │       │   hbms_ntm_pp.mixins.json
+│   │       │   pack.mcmeta
+│   │       │   
+│   │       ├───assets
+│   │       │   └───hbms_ntm_pp
+│   │       │       ├───blockstates
+│   │       │       │       steel_block.json
+│   │       │       │       
+│   │       │       ├───lang
+│   │       │       │       en_us.json
+│   │       │       │       zh_cn.json
+│   │       │       │       
+│   │       │       ├───models
+│   │       │       │   ├───block
+│   │       │       │   │       steel_block.json
+│   │       │       │   │       
+│   │       │       │   └───item
+│   │       │       │       │   bottle_empty.json
+│   │       │       │       │   bottle_nuka.json
+│   │       │       │       │   bottle_opener.json
+│   │       │       │       │   cap_nuka.json
+│   │       │       │       │   drillbit_steel.json
+│   │       │       │       │   steel_block.json
+│   │       │       │       │   steel_ingot.json
+│   │       │       │       │   template_folder.json
+│   │       │       │       │   
+│   │       │       │       └───booms
+│   │       │       │               man_igniter.json
+│   │       │       │               
+│   │       │       └───textures
+│   │       │           ├───block
+│   │       │           │       steel_block.png
+│   │       │           │       
+│   │       │           └───item
+│   │       │               │   bottle_empty.png
+│   │       │               │   bottle_nuka.png
+│   │       │               │   bottle_opener.png
+│   │       │               │   cap_nuka.png
+│   │       │               │   drillbit_steel.png
+│   │       │               │   steel_ingot.png
+│   │       │               │   template_folder.png
+│   │       │               │   
+│   │       │               └───booms
+│   │       │                       man_igniter.png
+│   │       │                       
+│   │       ├───data
+│   │       │   └───forge
+│   │       │       └───tags
+│   │       │           └───items
+│   │       │                   ingotSteel.json
+│   │       │                   Steel.json
+│   │       │                   steelSteel.json
+│   │       │                   
+│   │       └───META-INF
+│   │               mods.toml
+│   │               
+│   └───tmp
+│       └───compileJava
+│           │   previous-compilation-data.bin
+│           │   
+│           └───compileTransaction
+│               ├───backup-dir
+│               └───stash-dir
+│                       Hbms_ntm_pp$ClientModEvents.class.uniqueId2
+│                       Hbms_ntm_pp.class.uniqueId1
+│                       modBlocks.class.uniqueId5
+│                       modColaItem.class.uniqueId4
+│                       modCreativeModeTab.class.uniqueId6
+│                       modItems.class.uniqueId3
+│                       modOpenerItem.class.uniqueId0
+│                       
+├───gradle
+│   └───wrapper
+│           gradle-wrapper.properties
+│           
+├───run
+│   │   options.txt
+│   │   usercache.json
+│   │   usernamecache.json
+│   │   
+│   ├───config
+│   │       fml.toml
+│   │       forge-client.toml
+│   │       hbms_ntm_pp-common.toml
+│   │       
+│   ├───crash-reports
+│   │       crash-2026-07-15_11.06.02-client.txt
+│   │       crash-2026-07-15_11.07.30-client.txt
+│   │       crash-2026-07-17_13.40.46-client.txt
+│   │       
+│   ├───defaultconfigs
+│   ├───logs
+│   │   │   2026-07-15-10.log.gz
+│   │   │   2026-07-15-11.log.gz
+│   │   │   2026-07-15-12.log.gz
+│   │   │   2026-07-15-13.log.gz
+│   │   │   2026-07-15-14.log.gz
+│   │   │   2026-07-15-15.log.gz
+│   │   │   2026-07-15-16.log.gz
+│   │   │   2026-07-15-2.log.gz
+│   │   │   2026-07-15-3.log.gz
+│   │   │   2026-07-15-4.log.gz
+│   │   │   2026-07-15-5.log.gz
+│   │   │   2026-07-15-6.log.gz
+│   │   │   2026-07-15-7.log.gz
+│   │   │   2026-07-15-8.log.gz
+│   │   │   2026-07-15-9.log.gz
+│   │   │   2026-07-17-10.log.gz
+│   │   │   2026-07-17-11.log.gz
+│   │   │   2026-07-17-12.log.gz
+│   │   │   2026-07-17-13.log.gz
+│   │   │   2026-07-17-14.log.gz
+│   │   │   2026-07-17-2.log.gz
+│   │   │   2026-07-17-3.log.gz
+│   │   │   2026-07-17-4.log.gz
+│   │   │   2026-07-17-5.log.gz
+│   │   │   2026-07-17-6.log.gz
+│   │   │   2026-07-17-7.log.gz
+│   │   │   2026-07-17-8.log.gz
+│   │   │   2026-07-17-9.log.gz
+│   │   │   debug-1.log.gz
+│   │   │   debug-2.log.gz
+│   │   │   debug-3.log.gz
+│   │   │   debug-4.log.gz
+│   │   │   debug-5.log.gz
+│   │   │   debug.log
+│   │   │   latest.log
+│   │   │   
+│   │   └───telemetry
+│   ├───mods
+│   ├───resourcepacks
+│   └───saves
+│       └───HBMtest
+│           │   icon.png
+│           │   level.dat
+│           │   level.dat_old
+│           │   session.lock
+│           │   
+│           ├───advancements
+│           │       380df991-f603-344c-a090-369bad2a924a.json
+│           │       
+│           ├───data
+│           │       capabilities.dat
+│           │       raids.dat
+│           │       random_sequences.dat
+│           │       
+│           ├───datapacks
+│           ├───DIM-1
+│           │   └───data
+│           │           capabilities.dat
+│           │           raids.dat
+│           │           
+│           ├───DIM1
+│           │   └───data
+│           │           capabilities.dat
+│           │           raids_end.dat
+│           │           
+│           ├───entities
+│           │       r.-1.-1.mca
+│           │       r.-1.0.mca
+│           │       r.0.-1.mca
+│           │       r.0.0.mca
+│           │       
+│           ├───playerdata
+│           │       380df991-f603-344c-a090-369bad2a924a.dat
+│           │       380df991-f603-344c-a090-369bad2a924a.dat_old
+│           │       
+│           ├───poi
+│           │       r.-1.-1.mca
+│           │       r.-1.0.mca
+│           │       r.-2.-1.mca
+│           │       r.-2.0.mca
+│           │       r.0.-1.mca
+│           │       r.0.0.mca
+│           │       
+│           ├───region
+│           │       r.-1.-1.mca
+│           │       r.-1.0.mca
+│           │       r.-2.-1.mca
+│           │       r.-2.0.mca
+│           │       r.0.-1.mca
+│           │       r.0.0.mca
+│           │       
+│           ├───serverconfig
+│           │       forge-server.toml
+│           │       
+│           └───stats
+│                   380df991-f603-344c-a090-369bad2a924a.json
+│                   
+└───src
+    ├───generated
+    │   └───resources
+    ├───main
+    │   ├───java
+    │   │   └───currkill
+    │   │       └───hbms_ntm_pp
+    │   │           │   Config.java
+    │   │           │   Hbms_ntm_pp.java
+    │   │           │   modCreativeModeTab.java
+    │   │           │   
+    │   │           ├───api
+    │   │           │   └───energy
+    │   │           │       ├───he
+    │   │           │       │       modEnergyConnector.java
+    │   │           │       │       modEnergyRegistry.java
+    │   │           │       │       
+    │   │           │       └───rf
+    │   │           ├───block
+    │   │           │       modBlocks.java
+    │   │           │       
+    │   │           ├───item
+    │   │           │       modColaItem.java
+    │   │           │       modItems.java
+    │   │           │       modOpenerItem.java
+    │   │           │       
+    │   │           ├───jei
+    │   │           ├───mixin
+    │   │           │       nuke_tab.java
+    │   │           │       
+    │   │           └───ore
+    │   └───resources
+    │       │   hbms_ntm_pp.mixins.json
+    │       │   pack.mcmeta
+    │       │   
+    │       ├───assets
+    │       │   └───hbms_ntm_pp
+    │       │       ├───blockstates
+    │       │       │       steel_block.json
+    │       │       │       
+    │       │       ├───lang
+    │       │       │       en_us.json
+    │       │       │       zh_cn.json
+    │       │       │       
+    │       │       ├───models
+    │       │       │   ├───block
+    │       │       │   │       steel_block.json
+    │       │       │   │       
+    │       │       │   └───item
+    │       │       │       │   bottle_empty.json
+    │       │       │       │   bottle_nuka.json
+    │       │       │       │   bottle_opener.json
+    │       │       │       │   cap_nuka.json
+    │       │       │       │   drillbit_steel.json
+    │       │       │       │   steel_block.json
+    │       │       │       │   steel_ingot.json
+    │       │       │       │   template_folder.json
+    │       │       │       │   
+    │       │       │       └───booms
+    │       │       │               man_igniter.json
+    │       │       │               
+    │       │       └───textures
+    │       │           ├───block
+    │       │           │       steel_block.png
+    │       │           │       
+    │       │           ├───gui
+    │       │           │       nuke_tab_background.png
+    │       │           │       
+    │       │           └───item
+    │       │               │   bottle_empty.png
+    │       │               │   bottle_nuka.png
+    │       │               │   bottle_opener.png
+    │       │               │   cap_nuka.png
+    │       │               │   drillbit_steel.png
+    │       │               │   steel_ingot.png
+    │       │               │   template_folder.png
+    │       │               │   
+    │       │               └───booms
+    │       │                       man_igniter.png
+    │       │                       
+    │       ├───data
+    │       │   └───forge
+    │       │       └───tags
+    │       │           └───items
+    │       │                   ingotSteel.json
+    │       │                   Steel.json
+    │       │                   steelSteel.json
+    │       │                   
+    │       └───META-INF
+    │               mods.toml
+    │               
+    └───test
+        ├───java
+        └───resources

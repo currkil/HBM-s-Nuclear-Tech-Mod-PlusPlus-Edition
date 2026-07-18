@@ -23,6 +23,10 @@ public class modBlocks {
             registerBlock("steel_block", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,50.0F)
                     .sound(SoundType.METAL)));//钢块
+    public static final RegistryObject<Block> STRUCT_LAUNCHER =
+            registerBlock("steel_block", () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F,10.0F)
+                    .sound(SoundType.METAL)));//发射台部件
 
     private static <T extends Block> void registerBlockItems(String name, RegistryObject<T> block) {
         modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
@@ -31,7 +35,7 @@ public class modBlocks {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
         registerBlockItems(name, blocks);
         return blocks;
-    }//注册物品
+    }//注册方块
 
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);

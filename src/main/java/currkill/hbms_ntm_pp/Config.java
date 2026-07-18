@@ -44,11 +44,13 @@ public class Config
     public static String magicNumberIntroduction;
     public static Set<Item> items;
 
+    @SuppressWarnings("removal")//闭嘴我真服了明明是1.20.1老是说1.20.6干啥啊
     private static boolean validateItemName(final Object obj)
     {
         return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
     }
 
+    @SuppressWarnings("removal")//你也给我闭嘴
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
