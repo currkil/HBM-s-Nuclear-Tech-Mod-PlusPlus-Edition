@@ -2,18 +2,52 @@ package currkill.hbms_ntm_pp;
 
 import currkill.hbms_ntm_pp.block.modBlocks;
 import currkill.hbms_ntm_pp.item.modItems;
+import currkill.hbms_ntm_pp.ore.modOres;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.datafix.fixes.ObjectiveRenderTypeFix;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //创建创造模式物品栏
 public class modCreativeModeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Hbms_ntm_pp.MODID);
+
+    private static void disPlayAll(CreativeModeTab.Output output, List<RegistryObject<Item>> itemObjects) {
+        for(RegistryObject<Item> Object : itemObjects) {
+            output.accept(Object.get());
+        }
+    }
+    public static final List<RegistryObject<Item>> PART_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> CONTROL_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> TEMPLATE_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> BLOCK_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> MACHINE_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> NUKE_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> MISSILE_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> WEAPON_ITEMS = new ArrayList<>();
+    public static final List<RegistryObject<Item>> CONSUMABLE_ITEMS = new ArrayList<>();
+    public static void addItemToTab(RegistryObject<Item> stack, String tab) {
+        switch (tab) {
+            case "part" -> PART_ITEMS.add(stack);
+            case "control" -> CONTROL_ITEMS.add(stack);
+            case "template" -> TEMPLATE_ITEMS.add(stack);
+            case "block" -> BLOCK_ITEMS.add(stack);
+            case "machine" -> MACHINE_ITEMS.add(stack);
+            case "nuke" -> NUKE_ITEMS.add(stack);
+            case "missile" -> MISSILE_ITEMS.add(stack);
+            case "weapon" -> WEAPON_ITEMS.add(stack);
+            case "consumable" -> CONSUMABLE_ITEMS.add(stack);
+        }
+    }
 
     //资源和零件 Resources and Parts
     public static final RegistryObject<CreativeModeTab> PARTS_TAB =
@@ -22,6 +56,7 @@ public class modCreativeModeTab {
                     .title(Component.translatable("itemGroup.parts_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
                         pOutput.accept(modItems.STEEL_INGOT.get());
+                        disPlayAll(pOutput, PART_ITEMS);
                     })
                     .build());
     //机器项目和燃料 Machine Items and Fuel
@@ -38,6 +73,7 @@ public class modCreativeModeTab {
             CREATIVE_MODE_TABS.register("template_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.TEMPLATE_FOLDER.get()))
                     .title(Component.translatable("itemGroup.template_tab"))
+                    .withSearchBar()
                     .displayItems((pParameters, pOutput) -> {//物品列表
                         pOutput.accept(modItems.TEMPLATE_FOLDER.get());
                     }).withTabsBefore(CONTROL_TAB.getKey())
@@ -49,6 +85,10 @@ public class modCreativeModeTab {
                     .title(Component.translatable("itemGroup.block_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
                         pOutput.accept(modBlocks.STEEL_BLOCK.get());
+
+                        pOutput.accept(modOres.LEAD_ORE.get());
+                        pOutput.accept(modOres.TITANIUM_ORE.get());
+                        pOutput.accept(modOres.TUNGSTEN_ORE.get());
                     }).withTabsBefore(TEMPLATE_TAB.getKey())
                     .build());
     //机器 Machines
@@ -72,19 +112,19 @@ public class modCreativeModeTab {
     //导弹和卫星 Missiles and Satellites
     public static final RegistryObject<CreativeModeTab> MISSILE_TAB =
             CREATIVE_MODE_TABS.register("missile_tab", () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
+                    .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.missile_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        //pOutput.accept(modItems.STEEL_INGOT.get());
+                        pOutput.accept(modItems.GLYPHID_GLAND_EMPTY.get());
                     }).withTabsBefore(NUKE_TAB.getKey())
                     .build());
     //武器和炮塔 Weapons and Turrets
     public static final RegistryObject<CreativeModeTab> WEAPON_TAB =
             CREATIVE_MODE_TABS.register("weapon_tab", () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
+                    .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.weapon_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        //pOutput.accept(modItems.STEEL_INGOT.get());
+                        pOutput.accept(modItems.GLYPHID_GLAND_EMPTY.get());
                     }).withTabsBefore(MISSILE_TAB.getKey())
                     .build());
     //食物和装备 Consumables and Gears

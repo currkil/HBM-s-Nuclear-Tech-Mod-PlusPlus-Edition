@@ -8,6 +8,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+
 //注册常规物品
 public class modItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -25,6 +27,9 @@ public class modItems {
     //炸弹 Bombs
     public static final RegistryObject<Item> MAN_IGNITER =
             ITEMS.register("booms/man_igniter", ()-> new Item(new Item.Properties()));//点火器(胖子)
+    //导弹和卫星 Missiles and Satellites
+    public static final RegistryObject<Item> GLYPHID_GLAND_EMPTY =
+            ITEMS.register("glyphid_gland_empty", ()-> new Item(new Item.Properties()));//异虫腺体
     //食物和装备 Consumables and Gears
     public static final RegistryObject<Item> BOTTLE_NUKA =
             ITEMS.register("bottle_nuka", ()-> new modColaItem(new Item.Properties().food(new FoodProperties.Builder()
@@ -38,6 +43,19 @@ public class modItems {
             ITEMS.register("bottle_empty", ()-> new Item(new Item.Properties()));//空可乐瓶
     public static final RegistryObject<Item> CAP_NUKA =
             ITEMS.register("cap_nuka", ()-> new Item(new Item.Properties()));//核子可乐瓶盖
+
+    static {
+        addItemToTab(STEEL_INGOT,"part");
+        addItemToTab(DRILLBIT_STEEL, "control");
+        addItemToTab(TEMPLATE_FOLDER,"template");
+        addItemToTab(MAN_IGNITER, "nuke");
+        addItemToTab(GLYPHID_GLAND_EMPTY,"missile");
+        addItemToTab(BOTTLE_EMPTY,"consumable");
+        addItemToTab(BOTTLE_NUKA,"consumable");
+        addItemToTab(BOTTLE_OPENER,"consumable");
+        addItemToTab(CAP_NUKA,"consumable");
+    }
+    //使用addItemToTab将物品传至list中
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
