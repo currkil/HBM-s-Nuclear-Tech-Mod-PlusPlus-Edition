@@ -10,6 +10,10 @@
   "item.hbms_ntm_pp.glyphid_gland_empty": "Glyphid's Fluid Gland",
 
   "block.hbms_ntm_pp.steel_block": "Block of steel",
+  "block.hbms_ntm_pp.lead_ore": "Block of lead",
+  "block.hbms_ntm_pp.titanium_ore": "Block of titanium",
+  "block.hbms_ntm_pp.tungsten_ore": "Block of tungsten",
+  "block.hbms_ntm_pp.struct_launcher": "Launch Pad Component Block",
 
   "itemGroup.consumable_tab": "NTM Consumables and Gears",
   "itemGroup.block_tab": "NTM Ores and Blocks",

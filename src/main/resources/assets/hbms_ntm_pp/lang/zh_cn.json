@@ -10,6 +10,10 @@
   "item.hbms_ntm_pp.glyphid_gland_empty": "异虫腺体",
 
   "block.hbms_ntm_pp.steel_block": "钢块",
+  "block.hbms_ntm_pp.lead_ore": "铅矿石",
+  "block.hbms_ntm_pp.titanium_ore": "钛矿石",
+  "block.hbms_ntm_pp.tungsten_ore": "钨矿石",
+  "block.hbms_ntm_pp.struct_launcher": "发射台部件",
 
   "itemGroup.consumable_tab": "HBM食物和装备",
   "itemGroup.block_tab": "HBM矿石和方块",
