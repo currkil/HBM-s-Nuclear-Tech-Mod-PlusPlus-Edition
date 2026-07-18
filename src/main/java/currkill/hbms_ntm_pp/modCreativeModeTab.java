@@ -9,6 +9,7 @@ import net.minecraft.util.datafix.fixes.ObjectiveRenderTypeFix;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -35,17 +36,17 @@ public class modCreativeModeTab {
     public static final List<RegistryObject<Item>> MISSILE_ITEMS = new ArrayList<>();
     public static final List<RegistryObject<Item>> WEAPON_ITEMS = new ArrayList<>();
     public static final List<RegistryObject<Item>> CONSUMABLE_ITEMS = new ArrayList<>();
-    public static void addItemToTab(RegistryObject<Item> stack, String tab) {
+    public static void addItemToTab(RegistryObject<Item> Object, String tab) {
         switch (tab) {
-            case "part" -> PART_ITEMS.add(stack);
-            case "control" -> CONTROL_ITEMS.add(stack);
-            case "template" -> TEMPLATE_ITEMS.add(stack);
-            case "block" -> BLOCK_ITEMS.add(stack);
-            case "machine" -> MACHINE_ITEMS.add(stack);
-            case "nuke" -> NUKE_ITEMS.add(stack);
-            case "missile" -> MISSILE_ITEMS.add(stack);
-            case "weapon" -> WEAPON_ITEMS.add(stack);
-            case "consumable" -> CONSUMABLE_ITEMS.add(stack);
+            case "part" -> PART_ITEMS.add(Object);
+            case "control" -> CONTROL_ITEMS.add(Object);
+            case "template" -> TEMPLATE_ITEMS.add(Object);
+            case "block" -> BLOCK_ITEMS.add(Object);
+            case "machine" -> MACHINE_ITEMS.add(Object);
+            case "nuke" -> NUKE_ITEMS.add(Object);
+            case "missile" -> MISSILE_ITEMS.add(Object);
+            case "weapon" -> WEAPON_ITEMS.add(Object);
+            case "consumable" -> CONSUMABLE_ITEMS.add(Object);
         }
     }
 
@@ -55,7 +56,6 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.parts_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.STEEL_INGOT.get());
                         disPlayAll(pOutput, PART_ITEMS);
                     })
                     .build());
@@ -65,7 +65,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.DRILLBIT_STEEL.get()))
                     .title(Component.translatable("itemGroup.control_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.DRILLBIT_STEEL.get());
+                        disPlayAll(pOutput, CONTROL_ITEMS);
                     }).withTabsBefore(PARTS_TAB.getKey())
                     .build());
     //模板 Template
@@ -75,7 +75,7 @@ public class modCreativeModeTab {
                     .title(Component.translatable("itemGroup.template_tab"))
                     .withSearchBar()
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.TEMPLATE_FOLDER.get());
+                        disPlayAll(pOutput, TEMPLATE_ITEMS);
                     }).withTabsBefore(CONTROL_TAB.getKey())
                     .build());
     //矿石和方块 Ores and Blocks
@@ -84,11 +84,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modBlocks.STEEL_BLOCK.get()))
                     .title(Component.translatable("itemGroup.block_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modBlocks.STEEL_BLOCK.get());
-
-                        pOutput.accept(modOres.LEAD_ORE.get());
-                        pOutput.accept(modOres.TITANIUM_ORE.get());
-                        pOutput.accept(modOres.TUNGSTEN_ORE.get());
+                        disPlayAll(pOutput, BLOCK_ITEMS);
                     }).withTabsBefore(TEMPLATE_TAB.getKey())
                     .build());
     //机器 Machines
@@ -97,7 +93,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.machine_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        //pOutput.accept(modItems.STEEL_INGOT.get());
+                        disPlayAll(pOutput, MACHINE_ITEMS);
                     }).withTabsBefore(BLOCK_TAB.getKey())
                     .build());
     //炸弹 Bombs
@@ -106,7 +102,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.MAN_IGNITER.get()))
                     .title(Component.translatable("itemGroup.nuke_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.MAN_IGNITER.get());
+                        disPlayAll(pOutput, NUKE_ITEMS);
                     }).withTabsBefore(MACHINE_TAB.getKey())
                     .build());
     //导弹和卫星 Missiles and Satellites
@@ -115,7 +111,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.missile_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.GLYPHID_GLAND_EMPTY.get());
+                        disPlayAll(pOutput, MISSILE_ITEMS);
                     }).withTabsBefore(NUKE_TAB.getKey())
                     .build());
     //武器和炮塔 Weapons and Turrets
@@ -124,7 +120,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.weapon_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.GLYPHID_GLAND_EMPTY.get());
+                        disPlayAll(pOutput, WEAPON_ITEMS);
                     }).withTabsBefore(MISSILE_TAB.getKey())
                     .build());
     //食物和装备 Consumables and Gears
@@ -133,10 +129,7 @@ public class modCreativeModeTab {
                     .icon(() -> new ItemStack(modItems.BOTTLE_NUKA.get()))
                     .title(Component.translatable("itemGroup.consumable_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
-                        pOutput.accept(modItems.BOTTLE_NUKA.get());
-                        pOutput.accept(modItems.BOTTLE_EMPTY.get());
-                        pOutput.accept(modItems.BOTTLE_OPENER.get());
-                        pOutput.accept(modItems.CAP_NUKA.get());
+                        disPlayAll(pOutput, CONSUMABLE_ITEMS);
                     }).withTabsBefore(WEAPON_TAB.getKey())
                     .build());
 

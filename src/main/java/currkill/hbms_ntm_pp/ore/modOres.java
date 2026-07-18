@@ -14,6 +14,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
+import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+
 
 public class modOres {
     public static final DeferredRegister<Block> BLOCKS =
@@ -22,23 +24,24 @@ public class modOres {
     public static final RegistryObject<Block> TUNGSTEN_ORE =
             registerOre("tungsten_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//钨矿石
+                    .sound(SoundType.STONE)),"block");//钨矿石
     public static final RegistryObject<Block> TITANIUM_ORE =
             registerOre("titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//钛矿石
+                    .sound(SoundType.STONE)),"block");//钛矿石
     public static final RegistryObject<Block> LEAD_ORE =
             registerOre("lead_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//铅矿石
+                    .sound(SoundType.STONE)),"block");//铅矿石
 
 
-    private static <T extends Block> void registerOreBlockItems(String name, RegistryObject<T> block) {
-        modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    private static <T extends Block> RegistryObject<Item> registerOreBlockItems(String name, RegistryObject<T> block) {
+        return modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }//注册矿石方块物品
-    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block) {
+    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block,String tab) {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
-        registerOreBlockItems(name, blocks);
+        RegistryObject<Item> oreitem = registerOreBlockItems(name, blocks);
+        addItemToTab(oreitem, tab);
         return blocks;
     }//注册矿石
 
