@@ -139,6 +139,10 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        name = "JEI Maven"
+        url = "https://maven.blamejared.com/"
+    }
 }
 
 dependencies {
@@ -163,6 +167,8 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
@@ -208,3 +214,16 @@ tasks.named('jar', Jar).configure {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+tasks.register('generateAssets', JavaExec) {
+    group = "Tools"
+    description = "数据生成"
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'currkill.hbms_ntm_pp.generate.MainGenerator'
+    workingDir = projectDir;
+
+    systemProperty 'file.encoding', 'UTF-8'
+    systemProperty 'user.dir', projectDir
+}
+tasks.build.dependsOn tasks.generateAssets

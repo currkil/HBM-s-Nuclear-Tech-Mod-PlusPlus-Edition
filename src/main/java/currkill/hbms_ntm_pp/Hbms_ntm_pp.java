@@ -3,7 +3,8 @@ package currkill.hbms_ntm_pp;
 import com.mojang.logging.LogUtils;
 import currkill.hbms_ntm_pp.block.modBlocks;
 import currkill.hbms_ntm_pp.item.modItems;
-import currkill.hbms_ntm_pp.ore.modOres;
+import currkill.hbms_ntm_pp.block.modOres;
+import currkill.hbms_ntm_pp.item.modOreItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,31 +40,12 @@ public class Hbms_ntm_pp {
         //调用总线
         modOres.register(modEventBus);
         modItems.register(modEventBus);
-        modCreativeModeTab.register(modEventBus);
+        modOreItem.register(modEventBus);
         modBlocks.register(modEventBus);
+        modCreativeModeTab.register(modEventBus);
         //千万不要动
-        /*
-                           _ooOoo_
-                          o8888888o
-                          88" . "88
-                          (| -_- |)
-                          O\  =  /O
-                       ____/`---'\____
-                      .'  \\|     |//  `.
-                    /  \\|||  :  |||//  \
-                   /  _||||| -:- |||||-  \
-                   |   | \\\  -  /// |   |
-                   | \_|  ''\---/''  |   |
-                   \  .-\__  `-`  ___/-. /
-                 ___`. .'  /--.--\  `. . __
-              ."" '<  `.___\_<|>_/___.'  >'"".
-             | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-             \  \ `-.   \_ __\ /__ _/   .-` /  /
-        ======`-.____`-.___\_____/___.-`____.-'======
-                       `=---='
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                    佛祖保佑       永无BUG
-        */
+
+        modOreItem.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

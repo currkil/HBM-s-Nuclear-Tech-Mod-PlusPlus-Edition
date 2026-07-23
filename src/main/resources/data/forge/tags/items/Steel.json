@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "hbms_ntm_pp:steel_ingot"
+    "hbms_ntm_pp:steel_ingot",
+    "hbms_ntm_pp:steel_plate",
+    "hbms_ntm_pp:steel_tiny_powder",
+    "hbms_ntm_pp:steel_powder",
+    "hbms_ntm_pp:drillbit_steel"
   ]
 }

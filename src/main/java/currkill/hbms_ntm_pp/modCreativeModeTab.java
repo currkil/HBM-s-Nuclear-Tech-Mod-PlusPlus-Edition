@@ -2,14 +2,12 @@ package currkill.hbms_ntm_pp;
 
 import currkill.hbms_ntm_pp.block.modBlocks;
 import currkill.hbms_ntm_pp.item.modItems;
-import currkill.hbms_ntm_pp.ore.modOres;
+import currkill.hbms_ntm_pp.item.modOreItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.datafix.fixes.ObjectiveRenderTypeFix;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -53,7 +51,7 @@ public class modCreativeModeTab {
     //资源和零件 Resources and Parts
     public static final RegistryObject<CreativeModeTab> PARTS_TAB =
             CREATIVE_MODE_TABS.register("parts_tab", () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
+                    .icon(() -> new ItemStack(modOreItem.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.parts_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
                         disPlayAll(pOutput, PART_ITEMS);
@@ -90,7 +88,7 @@ public class modCreativeModeTab {
     //机器 Machines
     public static final RegistryObject<CreativeModeTab> MACHINE_TAB =
             CREATIVE_MODE_TABS.register("machine_tab", () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
+                    //.icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.machine_tab"))
                     .displayItems((pParameters, pOutput) -> {//物品列表
                         disPlayAll(pOutput, MACHINE_ITEMS);

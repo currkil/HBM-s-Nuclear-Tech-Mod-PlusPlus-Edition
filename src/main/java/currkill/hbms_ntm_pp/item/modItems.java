@@ -16,8 +16,8 @@ public class modItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Hbms_ntm_pp.MODID);
 
     //资源和零件 Resources and Parts
-    public static final RegistryObject<Item> STEEL_INGOT =
-            ITEMS.register("steel_ingot", ()-> new Item(new Item.Properties()));//钢锭Steel,ingotSteel
+    //public static final RegistryObject<Item> STEEL_INGOT =
+    //        ITEMS.register("steel_ingot", ()-> new Item(new Item.Properties()));//钢锭Steel,ingotSteel
     //机器项目和燃料 Machine Items and Fuel
     public static final RegistryObject<Item> DRILLBIT_STEEL =
             ITEMS.register("drillbit_steel", ()-> new Item(new Item.Properties().stacksTo(1)));//钢钻头
@@ -45,7 +45,7 @@ public class modItems {
             ITEMS.register("cap_nuka", ()-> new Item(new Item.Properties()));//核子可乐瓶盖
 
     static {
-        addItemToTab(STEEL_INGOT,"part");
+        //addItemToTab(STEEL_INGOT,"part");
         addItemToTab(DRILLBIT_STEEL, "control");
         addItemToTab(TEMPLATE_FOLDER,"template");
         addItemToTab(MAN_IGNITER, "nuke");

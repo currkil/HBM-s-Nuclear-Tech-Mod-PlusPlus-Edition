@@ -1,6 +1,4 @@
 {
-  "item.hbms_ntm_pp.steel_ingot": "Steel Ingot",
-  "item.hbms_ntm_pp.drillbit_steel": "Steel Drillbit",
   "item.hbms_ntm_pp.template_folder": "Machine Template Folder",
   "item.hbms_ntm_pp.bottle_nuka": "Bottle of Nuka Cola",
   "item.hbms_ntm_pp.bottle_opener": "Hbm's Own Self-Made Bottle Opener",
@@ -8,6 +6,16 @@
   "item.hbms_ntm_pp.cap_nuka": "Nuka Cola Bottle Cap",
   "item.hbms_ntm_pp.booms.man_igniter": "Igniter[Fat Man]",
   "item.hbms_ntm_pp.glyphid_gland_empty": "Glyphid's Fluid Gland",
+
+  "item.hbms_ntm_pp.steel_ingot": "Steel Ingot",
+  "item.hbms_ntm_pp.drillbit_steel": "Steel Drillbit",
+  "item.hbms_ntm_pp.steel_plate": "Steel Plate",
+  "item.hbms_ntm_pp.steel_powder": "Steel Powder",
+  "item.hbms_ntm_pp.steel_tiny_powder": "Steel Tiny Powder",
+  "item.hbms_ntm_pp.steel_pickaxe": "Steel pickaxe",
+  "item.hbms_ntm_pp.steel_axe": "Steel axe",
+  "item.hbms_ntm_pp.steel_shovel": "Steel shovel",
+  "item.hbms_ntm_pp.steel_hoe": "Steel hoe",
 
   "block.hbms_ntm_pp.steel_block": "Block of steel",
   "block.hbms_ntm_pp.lead_ore": "Block of lead",

@@ -1,17 +1,34 @@
 package currkill.hbms_ntm_pp.item;
 
+import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import net.minecraft.world.item.*;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Objects;
 
 import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
 
 public class modOreItem {
+
+    public static final DeferredRegister<Item> OREITEMS =
+            DeferredRegister.create(ForgeRegistries.ITEMS, Hbms_ntm_pp.MODID);
+    public static RegistryObject<Item> STEEL_INGOT = null;
+
+    public static void init() {
+        if (STEEL_INGOT != null) return;
+        registerOreItem("steel", 1, 2, 3, 11, 20, 21, 22, 23);
+    }
+
     public static void registerOreItem(String material, int... types) {
         for (int type : types) {
             String name = material + "_" + getTypeSuffix(type);
-            RegistryObject<Item> item = modItems.ITEMS.register(name, () -> createItem(type));
+            RegistryObject<Item> item = OREITEMS.register(name, () -> createItem(type));
             String targetTab = getTabForType(type, "part");
             addItemToTab(item, targetTab);
+            if(Objects.equals(material, "steel") && type==1) STEEL_INGOT=item;
         }
     }
     public static void registerOreItem(String material, String tab, int... types) {
@@ -20,78 +37,90 @@ public class modOreItem {
             RegistryObject<Item> item = modItems.ITEMS.register(name, () -> createItem(type));
             String targetTab = getTabForType(type, tab);
             addItemToTab(item, targetTab);
+            //if(Objects.equals(material, "steel") && type==1) STEEL_INGOT=item;
         }
     }
 
     private static String getTabForType(int type, String defaultTab) {
         return switch (type) {
-            case 11 -> "consumable";  // π§æﬂ
-            // case 12 -> "weapon";   // Œ‰∆˜¿‡–Õ
-            // case 13 -> "block";    // ∑ΩøÈ¿‡–Õ
+            case 11 -> "consumable";  // Â∑•ÂÖ∑
+            // case 12 -> "weapon";   // Ê≠¶Âô®Á±ªÂûã
+            // case 13 -> "block";    // ÊñπÂùóÁ±ªÂûã
             default -> defaultTab;
         };
     }
 
     private static String getTypeSuffix(int type) {
         return switch (type) {
-            case 1 -> "plate";
-            case 2 -> "powder";
-            //case 3 -> "";
+            case 1 -> "ingot";
+            case 2 -> "plate";
+            case 3 -> "powder";
             //case 4 -> "";
-            case 5 -> "wire_fine";
-            case 6 -> "cast_plate";
-            case 7 -> "weld_plate";
-            case 8 -> "shell";
-            case 9 -> "pipe";
-            case 10 -> "tiny_powder";
-            //case 11 -> "";
-            default -> "ERROR_item";
+            //case 5 -> "";
+            case 6 -> "wire_fine";
+            case 7 -> "cast_plate";
+            case 8 -> "weld_plate";
+            case 9 -> "shell";
+            case 10 -> "pipe";
+            case 11 -> "tiny_powder";
+            case 20 -> "pickaxe";
+            case 21 -> "axe";
+            case 22 -> "shovel";
+            case 23 -> "hoe";
+            default -> "ERROR_item"; // ÈîôËØØÁâ©ÂìÅ
         };
     }
 
     private static Item createItem(int type) {
         return switch (type) {
-            case 1 -> // ∞Â plate
+            case 1 -> // Èî≠ ingot / ingot
                     new Item(new Item.Properties());
-            case 2 -> // ∑€ powder / dust
+            case 2 -> // Êùø plate
                     new Item(new Item.Properties());
-            case 3 -> // ¡£
+            case 3 -> // Á≤â powder / dust
                     new Item(new Item.Properties());
-            case 4 -> // µÁ¬∑∞Â
+            case 4 -> // Á≤í
                     new Item(new Item.Properties());
-            case 5 -> // œﬂ wire fine / wireFine
+            case 5 -> // ÁîµË∑ØÊùø
                     new Item(new Item.Properties());
-            case 6 -> // ÷˝‘Ï∞Â cast plate
+            case 6 -> // Á∫ø wire fine / wireFine
                     new Item(new Item.Properties());
-            case 7 -> // ∫∏Ω”∞Â weld plate
+            case 7 -> // Èì∏ÈÄ†Êùø cast plate
                     new Item(new Item.Properties());
-            case 8 -> // ø« shell / shell
+            case 8 -> // ÁÑäÊé•Êùø weld plate
                     new Item(new Item.Properties());
-            case 9 -> // π‹ pipe / pipe
+            case 9 -> // Â£≥ shell / shell
                     new Item(new Item.Properties());
-            case 10 -> // –°¥È∑€ tiny powder / dustTiny
+            case 10 -> // ÁÆ° pipe / pipe
                     new Item(new Item.Properties());
-            case 20 -> // ∏‰ pickaxe
+            case 11 -> // Â∞èÊíÆÁ≤â tiny powder / dustTiny
+                    new Item(new Item.Properties());
+            case 20 -> // Èïê pickaxe
                     new PickaxeItem(Tiers.DIAMOND, 1, -2.8F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 21 -> // ∏´ axe
+            case 21 -> // Êñß axe
                     new AxeItem(Tiers.DIAMOND, 5, -3.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 22 -> // «¬ shovel
+            case 22 -> // Èîπ shovel
                     new ShovelItem(Tiers.DIAMOND, 1.5F, -3.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 23 -> // ≥˙ hoe
+            case 23 -> // ÈîÑ hoe
                     new HoeItem(Tiers.DIAMOND, -2, -1.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            default -> new Item(new Item.Properties()); // ¥ÌŒÛŒÔ∆∑
+            default -> new Item(new Item.Properties()); // ÈîôËØØÁâ©ÂìÅ
         };
     }
 
-    static {
-        registerOreItem("steel",1,2,5,6,7,8,9,10,20,21,22,23);
+    //static {
+    //    //registerOreItem("steel",1,2,3,5,6,7,8,9,10,20,21,22,23);
+    //     registerOreItem("steel",1,2,3,11,20,21,22,23);
+    //}
+
+    public static void register(IEventBus eventBus) {
+        OREITEMS.register(eventBus);
     }
 }

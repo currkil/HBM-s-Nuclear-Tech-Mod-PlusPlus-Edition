@@ -1,4 +1,4 @@
-package currkill.hbms_ntm_pp.ore;
+package currkill.hbms_ntm_pp.block;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.item.modItems;
