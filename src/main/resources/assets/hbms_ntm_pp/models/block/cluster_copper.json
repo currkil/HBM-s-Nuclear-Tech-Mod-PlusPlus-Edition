@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "hbms_ntm_pp:block/cluster_copper"
-  }
-}

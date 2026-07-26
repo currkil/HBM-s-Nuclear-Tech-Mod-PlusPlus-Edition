@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "hbms_ntm_pp:item/steel_pickaxe"
+  }
+}

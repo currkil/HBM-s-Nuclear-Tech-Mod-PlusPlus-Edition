@@ -21,6 +21,12 @@
   "block.hbms_ntm_pp.lead_ore": "铅矿石",
   "block.hbms_ntm_pp.titanium_ore": "钛矿石",
   "block.hbms_ntm_pp.tungsten_ore": "钨矿石",
+  "block.hbms_ntm_pp.cluster_depth_iron_ore": "深层铁矿簇",
+  "block.hbms_ntm_pp.cluster_depth_titanium_ore": "深层钛矿簇",
+  "block.hbms_ntm_pp.cluster_depth_tungsten_ore": "深层钨矿簇",
+  "block.hbms_ntm_pp.cluster_iron_ore": "铁矿簇",
+  "block.hbms_ntm_pp.cluster_copper_ore": "铜矿簇",
+  "block.hbms_ntm_pp.cluster_titanium_ore": "钛矿簇",
   "block.hbms_ntm_pp.struct_launcher": "发射台部件",
 
   "itemGroup.consumable_tab": "HBM食物和装备",

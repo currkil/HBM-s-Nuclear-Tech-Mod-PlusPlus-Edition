@@ -43,7 +43,7 @@ public class modOreItem {
 
     private static String getTabForType(int type, String defaultTab) {
         return switch (type) {
-            case 11 -> "consumable";  // 工具
+            case 20, 21, 22, 23 -> "consumable";  // 工具
             // case 12 -> "weapon";   // 武器类型
             // case 13 -> "block";    // 方块类型
             default -> defaultTab;

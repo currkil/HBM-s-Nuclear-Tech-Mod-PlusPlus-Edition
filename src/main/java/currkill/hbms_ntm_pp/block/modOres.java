@@ -14,6 +14,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
+import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+
 
 public class modOres {
     public static final DeferredRegister<Block> BLOCKS =
@@ -22,53 +24,50 @@ public class modOres {
     public static final RegistryObject<Block> TUNGSTEN_ORE =
             registerOre("tungsten_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//钨矿石
+                    .sound(SoundType.STONE)),"block");//钨矿石
     public static final RegistryObject<Block> TITANIUM_ORE =
             registerOre("titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//钛矿石
+                    .sound(SoundType.STONE)),"block");//钛矿石
     public static final RegistryObject<Block> LEAD_ORE =
             registerOre("lead_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//铅矿石
+                    .sound(SoundType.STONE)),"block");//铅矿石
 
     public static final RegistryObject<Block> CLUSTER_IRON_ORE =
             registerOre("cluster_iron_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//晶体铁矿石 cluster iron ore
-
+                    .sound(SoundType.STONE)),"block");//晶体铁矿石 cluster iron ore
     public static final RegistryObject<Block> CLUSTER_TITANIUM_ORE =
             registerOre("cluster_titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//晶体钛矿石 cluster titanium ore
-
+                    .sound(SoundType.STONE)),"block");//晶体钛矿石 cluster titanium ore
     public static final RegistryObject<Block> CLUSTER_COPPER_ORE =
             registerOre("cluster_copper_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//晶体铜矿石 cluster copper ore
+                    .sound(SoundType.STONE)),"block");//晶体铜矿石 cluster copper ore
 
     public static final RegistryObject<Block> CLUSTER_DEPTH_IRON_ORE =
             registerOre("cluster_depth_iron_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//深层晶体铁矿石 cluster depth iron ore
-
+                    .sound(SoundType.STONE)),"block");//深层晶体铁矿石 cluster depth iron ore
     public static final RegistryObject<Block> CLUSTER_DEPTH_TITANIUM_ORE =
             registerOre("cluster_depth_titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//深层晶体钛矿石 cluster depth titanium ore
-
-    public static final RegistryObject<Block> CLUSTER_DEPTH_COPPER_ORE =
-            registerOre("cluster_depth_copper_ore", () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)),"block");//深层晶体钛矿石 cluster depth titanium ore
+    public static final RegistryObject<Block> CLUSTER_DEPTH_TUNGSTEN_ORE =
+            registerOre("cluster_depth_tungsten_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)));//深层晶体铜矿石(原版有吗？) cluster depth copper ore(Does NTM has this thing?)
+                    .sound(SoundType.STONE)),"block");//深层晶体钨矿石 cluster depth tungsten ore
 
 
-    private static <T extends Block> void registerOreBlockItems(String name, RegistryObject<T> block) {
-        modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    private static <T extends Block> RegistryObject<Item> registerOreBlockItems(String name, RegistryObject<T> block) {
+        return modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }//注册矿石方块物品
-    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block) {
+    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block, String tab) {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
-        registerOreBlockItems(name, blocks);
+        RegistryObject<Item> blockitem = registerOreBlockItems(name, blocks);
+        addItemToTab(blockitem,tab);
         return blocks;
     }//注册矿石
 
