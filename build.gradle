@@ -220,10 +220,9 @@ tasks.register('generateAssets', JavaExec) {
     description = "数据生成"
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'currkill.hbms_ntm_pp.generate.MainGenerator'
+    mainClass = 'currkill.hbms_ntm_pp.generate.modJsonGenerate'
     workingDir = projectDir;
 
     systemProperty 'file.encoding', 'UTF-8'
     systemProperty 'user.dir', projectDir
 }
-tasks.build.dependsOn tasks.generateAssets

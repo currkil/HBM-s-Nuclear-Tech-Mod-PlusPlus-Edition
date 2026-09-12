@@ -2,6 +2,7 @@ package currkill.hbms_ntm_pp.item;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -10,6 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.Objects;
 
 import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+import static currkill.hbms_ntm_pp.tag.modTags.addBlockToTag;
 
 public class modOreItem {
 

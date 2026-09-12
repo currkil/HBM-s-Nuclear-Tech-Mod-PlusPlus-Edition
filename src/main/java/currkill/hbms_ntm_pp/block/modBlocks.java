@@ -15,6 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+import static currkill.hbms_ntm_pp.tag.modTags.addBlockToTag;
 
 //注册常规方块
 public class modBlocks {
@@ -24,19 +25,22 @@ public class modBlocks {
     public static final RegistryObject<Block> STEEL_BLOCK =
             registerBlock("steel_block", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,50.0F)
-                    .sound(SoundType.METAL)),"block");//钢块
+                    .sound(SoundType.METAL)),"block"
+            ,"iron","pickaxe");//钢块
     public static final RegistryObject<Block> STRUCT_LAUNCHER =
             registerBlock("struct_launcher", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.METAL)),"block");//发射台部件
+                    .sound(SoundType.METAL)),"block"
+            ,"iron","pickaxe");//发射台部件
 
     private static <T extends Block> RegistryObject<Item> registerBlockItems(String name, RegistryObject<T> block) {
         return modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }//注册方块物品
-    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block,String tab) {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block,String tab,String... tagType) {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
         RegistryObject<Item> blockitem = registerBlockItems(name, blocks);
         addItemToTab(blockitem,tab);
+        addBlockToTag((RegistryObject<Block>) blocks, tagType);
         return blocks;
     }//注册方块
 

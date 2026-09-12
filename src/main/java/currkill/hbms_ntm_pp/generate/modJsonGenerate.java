@@ -17,10 +17,22 @@ public class modJsonGenerate {
             modBlockModelsAndItemModelsGenerate.generate("cluster_iron_ore");
             modBlockModelsAndItemModelsGenerate.generate("cluster_titanium_ore");
 
+            modLootTablesGenerate.generate("steel_block","self");
+            modLootTablesGenerate.generate("struct_launcher","self");
+            //modLootTableGenerate.generate("cluster_copper_ore","ore");
+            //modLootTableGenerate.generate("cluster_depth_iron_ore","ore");
+            //modLootTableGenerate.generate("cluster_depth_titanium_ore","ore");
+            //modLootTableGenerate.generate("cluster_depth_tungsten_ore","ore");
+            modLootTablesGenerate.generate("lead_ore","ore");
+            modLootTablesGenerate.generate("titanium_ore","ore");
+            modLootTablesGenerate.generate("tungsten_ore","ore");
+
             System.out.println("Data generation completed!");
         } catch (Exception e) {
             System.out.println("Data generation failed!");
-            e.printStackTrace();  // 打印完整错误信息
+            e.printStackTrace();
+        } finally {
+            System.out.println("Data generation ended!");
         }
     }
 }

@@ -1,0 +1,15 @@
+{
+  "values": [
+    "hbms_ntm_pp:tungsten_ore",
+    "hbms_ntm_pp:titanium_ore",
+    "hbms_ntm_pp:lead_ore",
+    "hbms_ntm_pp:cluster_iron_ore",
+    "hbms_ntm_pp:cluster_titanium_ore",
+    "hbms_ntm_pp:cluster_copper_ore",
+    "hbms_ntm_pp:cluster_depth_iron_ore",
+    "hbms_ntm_pp:cluster_depth_titanium_ore",
+    "hbms_ntm_pp:cluster_depth_tungsten_ore",
+    "hbms_ntm_pp:steel_block",
+    "hbms_ntm_pp:struct_launcher"
+  ]
+}

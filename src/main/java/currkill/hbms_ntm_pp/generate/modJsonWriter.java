@@ -13,9 +13,13 @@ public class modJsonWriter {
             .create();
 
     public static boolean write(Path path, Object data) throws Exception{
-        if(Files.exists(path)) {
-            return false;
-        }
+        System.out.println("From modJsonWriter:If you want to override file,you need open Override mode.Else it will failed");
+        System.out.println("Failed by file!");
+        return write(path, data, false);
+    }
+    public static boolean write(Path path, Object data, boolean isOverride) throws Exception{
+        if(!isOverride && Files.exists(path)) return false;
+        if(isOverride && Files.exists(path)) Files.delete(path);
         Files.createDirectories(path.getParent());
         String json = gson.toJson(data);
 
