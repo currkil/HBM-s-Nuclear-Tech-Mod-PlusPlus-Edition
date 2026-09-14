@@ -1,0 +1,11 @@
+结构：
+    [状态]@用户名 - 任务名 - HBM包名 - 目标包名 - 依赖 :: 备注
+
+说明：
+    状态包含TODO,DOING,BLOCKING,DONE
+        TODO:准备完成
+        DOING:正在做
+        BLOCKING:无逻辑，堵塞中，等待处理
+        DONE:完成
+    在完成任务后只把状态改为DONE，不删除。
+    每一次要做的时候先推送再继续做，可直接执行同目录下的'TASK_git_push.bat'文件

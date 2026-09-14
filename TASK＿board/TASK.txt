@@ -1,0 +1,3 @@
+
+[DOING]@currkill - 能量系统完成 - api.hbm.energymk2 - currkill.hbms_ntm_pp.api.energy.he - 无 :: 需要按照原hbm逻辑完成
+[TODO]@待认领 - 能量网络与节点层 - api.hbm.energymk2(PowerNetMK2,Nodespace) - currkill.hbms_ntm_pp.api.energy.he - 能量API接口层 :: 需先移植 com.hbm.uninos 框架(GenNode/NodeNet/UniNodespace/PowerNetProvider)，再补 IEnergyConductorMK2.createNode 与 tryProvide/trySubscribe 的网络注册逻辑
