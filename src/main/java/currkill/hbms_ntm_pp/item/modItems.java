@@ -1,6 +1,8 @@
 package currkill.hbms_ntm_pp.item;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
+import currkill.hbms_ntm_pp.item.foodItems.modColaItem;
+import currkill.hbms_ntm_pp.item.foodItems.modOpenerItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;

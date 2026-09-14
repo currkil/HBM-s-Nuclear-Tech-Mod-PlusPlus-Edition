@@ -1,0 +1,152 @@
+:root {
+  --todo: #6b7280;
+  --doing: #2563eb;
+  --done: #16a34a;
+  --blocked: #dc2626;
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --border: #334155;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 20px 24px;
+}
+
+header h1 { font-size: 20px; margin: 0 0 14px; }
+
+.toolbar {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolbar button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.toolbar button:hover:not(:disabled) { background: var(--border); }
+.toolbar button:disabled { opacity: .4; cursor: not-allowed; }
+.toolbar button.primary { background: var(--doing); border-color: var(--doing); }
+.toolbar button.primary:hover:not(:disabled) { background: #1d4ed8; }
+.toolbar button.active { background: var(--doing); border-color: var(--doing); }
+
+.status { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+.stats { margin-bottom: 14px; font-size: 13px; color: var(--muted); }
+.stats span { margin-right: 16px; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+@media (max-width: 1100px) { .board { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .board { grid-template-columns: 1fr; } }
+
+.col {
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 120px;
+}
+.col h2 {
+  font-size: 14px;
+  margin: 0 0 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  background: var(--bg);
+  border-left: 3px solid var(--todo);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.card.todo    { border-left-color: var(--todo); }
+.card.doing   { border-left-color: var(--doing); }
+.card.done    { border-left-color: var(--done); }
+.card.blocked { border-left-color: var(--blocked); }
+
+.card .name { font-weight: 600; margin-bottom: 6px; }
+.card .who  { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+.card .path { color: #64748b; font-size: 11px; font-family: Consolas, monospace; word-break: break-all; }
+.card .dep  { color: #f59e0b; font-size: 11px; margin-top: 4px; }
+.card .note {
+  color: #cbd5e1; font-size: 12px; margin-top: 6px;
+  border-top: 1px dashed var(--border); padding-top: 6px;
+}
+.card .actions { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.card .actions button {
+  font-size: 11px; padding: 3px 8px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--panel);
+  color: var(--text); cursor: pointer;
+}
+.card .actions button:hover { background: var(--border); }
+
+.empty { color: #475569; font-size: 12px; text-align: center; padding: 20px 0; }
+
+/* 弹窗 */
+.modal-mask {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  justify-content: center; align-items: center;
+  z-index: 100;
+}
+.modal-mask.show { display: flex; }
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  width: 420px;
+  max-width: 90vw;
+}
+.modal h3 { margin: 0 0 14px; font-size: 16px; }
+.modal label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+.modal input, .modal textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.modal textarea { resize: vertical; min-height: 60px; }
+.modal input:focus, .modal textarea:focus { outline: none; border-color: var(--doing); }
+.modal-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.modal-actions button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.modal-actions button.primary { background: var(--doing); border-color: var(--doing); }
+.modal-actions button:hover { opacity: .9; }

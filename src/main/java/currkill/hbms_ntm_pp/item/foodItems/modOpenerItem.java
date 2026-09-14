@@ -1,4 +1,4 @@
-package currkill.hbms_ntm_pp.item;
+package currkill.hbms_ntm_pp.item.foodItems;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

@@ -1,5 +1,6 @@
-package currkill.hbms_ntm_pp.item;
+package currkill.hbms_ntm_pp.item.foodItems;
 
+import currkill.hbms_ntm_pp.item.modItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

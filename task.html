@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>HBM 移植任务板</title>
+<link rel="stylesheet" href="task.css">
+</head>
+<body>
+
+<header>
+  <h1>HBM 移植任务板</h1>
+  <div class="toolbar">
+    <button id="btnOpen" class="primary">打开 TASK.txt</button>
+    <button id="btnReconnect" disabled>重连上次文件</button>
+    <button id="btnSave" class="primary" disabled>保存</button>
+    <button id="btnAdd" disabled>新增任务</button>
+    <span id="fileStatus" class="status">未打开文件</span>
+  </div>
+  <div class="toolbar">
+    <button data-filter="ALL" class="filter active">全部</button>
+    <button data-filter="TODO" class="filter">TODO</button>
+    <button data-filter="DOING" class="filter">DOING</button>
+    <button data-filter="DONE" class="filter">DONE</button>
+    <button data-filter="BLOCKED" class="filter">BLOCKED</button>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main class="board">
+  <section class="col" data-col="TODO"><h2>TODO <span id="c-TODO">0</span></h2><div id="l-TODO"></div></section>
+  <section class="col" data-col="DOING"><h2>DOING <span id="c-DOING">0</span></h2><div id="l-DOING"></div></section>
+  <section class="col" data-col="DONE"><h2>DONE <span id="c-DONE">0</span></h2><div id="l-DONE"></div></section>
+  <section class="col" data-col="BLOCKED"><h2>BLOCKED <span id="c-BLOCKED">0</span></h2><div id="l-BLOCKED"></div></section>
+</main>
+
+<!-- 通用弹窗：认领 / 阻塞 / 新增 都用它 -->
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <h3 id="modalTitle">标题</h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button id="modalCancel">取消</button>
+      <button id="modalOk" class="primary">确定</button>
+    </div>
+  </div>
+</div>
+
+<script src="task.js"></script>
+</body>
+</html>
