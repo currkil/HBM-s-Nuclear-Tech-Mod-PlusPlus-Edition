@@ -3,6 +3,7 @@ package currkill.hbms_ntm_pp.item;
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.item.foodItems.modColaItem;
 import currkill.hbms_ntm_pp.item.foodItems.modOpenerItem;
+import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -71,14 +72,14 @@ public class modItems {
 
     static {
         //addItemToTab(STEEL_INGOT,"part");
-        addItemToTab(DRILLBIT_STEEL, "control");
-        addItemToTab(TEMPLATE_FOLDER,"template");
-        addItemToTab(MAN_IGNITER, "nuke");
-        addItemToTab(GLYPHID_GLAND_EMPTY,"missile");
-        addItemToTab(BOTTLE_EMPTY,"consumable");
-        addItemToTab(BOTTLE_NUKA,"consumable");
-        addItemToTab(BOTTLE_OPENER,"consumable");
-        addItemToTab(CAP_NUKA,"consumable");
+        addItemToTab(DRILLBIT_STEEL, Tab.CONTROL);
+        addItemToTab(TEMPLATE_FOLDER, Tab.TEMPLATE);
+        addItemToTab(MAN_IGNITER, Tab.NUKE);
+        addItemToTab(GLYPHID_GLAND_EMPTY, Tab.MISSILE);
+        addItemToTab(BOTTLE_EMPTY, Tab.CONSUMABLE);
+        addItemToTab(BOTTLE_NUKA, Tab.CONSUMABLE);
+        addItemToTab(BOTTLE_OPENER, Tab.CONSUMABLE);
+        addItemToTab(CAP_NUKA, Tab.CONSUMABLE);
     }
 
     /**

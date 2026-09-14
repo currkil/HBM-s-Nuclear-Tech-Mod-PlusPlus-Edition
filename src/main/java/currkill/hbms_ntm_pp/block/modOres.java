@@ -2,6 +2,7 @@ package currkill.hbms_ntm_pp.block;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.item.modItems;
+import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -38,63 +39,63 @@ public class modOres {
     public static final RegistryObject<Block> TUNGSTEN_ORE =
             registerOre("tungsten_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 钛矿石。 */
     public static final RegistryObject<Block> TITANIUM_ORE =
             registerOre("titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 铅矿石。 */
     public static final RegistryObject<Block> LEAD_ORE =
             registerOre("lead_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 铁矿簇。 */
     public static final RegistryObject<Block> CLUSTER_IRON_ORE =
             registerOre("cluster_iron_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 钛矿簇。 */
     public static final RegistryObject<Block> CLUSTER_TITANIUM_ORE =
             registerOre("cluster_titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 铜矿簇。 */
     public static final RegistryObject<Block> CLUSTER_COPPER_ORE =
             registerOre("cluster_copper_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 深层铁矿簇。 */
     public static final RegistryObject<Block> CLUSTER_DEPTH_IRON_ORE =
             registerOre("cluster_depth_iron_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 深层钛矿簇。 */
     public static final RegistryObject<Block> CLUSTER_DEPTH_TITANIUM_ORE =
             registerOre("cluster_depth_titanium_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /** 深层钨矿簇。 */
     public static final RegistryObject<Block> CLUSTER_DEPTH_TUNGSTEN_ORE =
             registerOre("cluster_depth_tungsten_ore", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.STONE)),"block",
+                    .sound(SoundType.STONE)), Tab.BLOCK,
                     "iron","pickaxe");
 
     /**
@@ -114,12 +115,12 @@ public class modOres {
      *
      * @param name    矿石的注册名
      * @param block   矿石实例的构造器
-     * @param tab     归属的创造模式物品栏标识
+     * @param tab     归属的创造模式物品栏
      * @param tagType 挖掘标签标识，可用取值见 {@link currkill.hbms_ntm_pp.tag.modTags}
      * @param <T>     方块类型
      * @return 注册得到的矿石方块
      */
-    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block, String tab,String... tagType) {
+    private static <T extends Block> RegistryObject<T> registerOre(String name, Supplier<T> block, Tab tab,String... tagType) {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
         RegistryObject<Item> blockitem = registerOreBlockItems(name, blocks);
         addItemToTab(blockitem,tab);

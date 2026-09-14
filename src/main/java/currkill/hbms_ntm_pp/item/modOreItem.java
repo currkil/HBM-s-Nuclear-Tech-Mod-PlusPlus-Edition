@@ -1,6 +1,7 @@
 package currkill.hbms_ntm_pp.item;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
+import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,32 +17,90 @@ import static currkill.hbms_ntm_pp.tag.modTags.addBlockToTag;
 /**
  * 「材料 × 形态」物品的批量注册器。
  * <p>
- * 向 {@link #registerOreItem(String, int...)} 传入材料名和一组形态编号，即可一次性注册该材料的
- * 一整套物品，命名规则为 {@code <材料名>_<形态后缀>}。例如
- * {@code registerOreItem("steel", 1, 2, 3)} 会注册出 {@code steel_ingot}、{@code steel_plate}、
- * {@code steel_powder}。
+ * 向 {@link #registerOreItem(String, OreItemType...)} 传入材料名和一组 {@link OreItemType}，
+ * 即可一次性注册该材料的一整套物品，命名规则为 {@code <材料名>_<形态后缀>}。例如
+ * {@code registerOreItem("steel", OreItemType.INGOT, OreItemType.PLATE)} 会注册出
+ * {@code steel_ingot} 与 {@code steel_plate}。
  * <p>
- * <b>形态编号对照表：</b>
- * <ul>
- *   <li>{@code 1} → {@code ingot}：锭</li>
- *   <li>{@code 2} → {@code plate}：板</li>
- *   <li>{@code 3} → {@code powder}：粉</li>
- *   <li>{@code 4}：粒（已在 {@link #createItem(int)} 中占位，但尚未在 {@link #getTypeSuffix(int)} 登记后缀）</li>
- *   <li>{@code 5}：电路板（同上，占位但未登记后缀）</li>
- *   <li>{@code 6} → {@code wire_fine}：细线</li>
- *   <li>{@code 7} → {@code cast_plate}：铸造板</li>
- *   <li>{@code 8} → {@code weld_plate}：焊接板</li>
- *   <li>{@code 9} → {@code shell}：壳</li>
- *   <li>{@code 10} → {@code pipe}：管</li>
- *   <li>{@code 11} → {@code tiny_powder}：小撮粉</li>
- *   <li>{@code 20} / {@code 21} / {@code 22} / {@code 23} → {@code pickaxe} / {@code axe} /
- *       {@code shovel} / {@code hoe}：镐、斧、锹、锄四件套工具</li>
- * </ul>
- * 未登记的编号会得到后缀 {@code ERROR_item}，并生成一个占位物品。
+ * 形态本身由 {@link OreItemType} 枚举描述，取代了原先 1=锭、2=板 之类的裸数字编号。
  *
  * @author currkill-deepseek
  */
 public class modOreItem {
+
+    /**
+     * 材料的物品形态。
+     * <p>
+     * 每个常量携带该形态的物品名后缀，注册名即为 {@code <材料名>_<后缀>}。
+     * <p>
+     * 尚未登记后缀：粒（原编号 4）与电路板（原编号 5），待实现后再补上对应常量。
+     *
+     * @author currkill-deepseek
+     */
+    public enum OreItemType {
+
+        /** 锭。 */
+        INGOT("ingot"),
+
+        /** 板。 */
+        PLATE("plate"),
+
+        /** 粉。 */
+        POWDER("powder"),
+        //case 4 -> "";
+        //case 5 -> "";
+
+        /** 细线。 */
+        WIRE_FINE("wire_fine"),
+
+        /** 铸造板。 */
+        CAST_PLATE("cast_plate"),
+
+        /** 焊接板。 */
+        WELD_PLATE("weld_plate"),
+
+        /** 壳。 */
+        SHELL("shell"),
+
+        /** 管。 */
+        PIPE("pipe"),
+
+        /** 小撮粉。 */
+        TINY_POWDER("tiny_powder"),
+
+        /** 镐。 */
+        PICKAXE("pickaxe"),
+
+        /** 斧。 */
+        AXE("axe"),
+
+        /** 锹。 */
+        SHOVEL("shovel"),
+
+        /** 锄。 */
+        HOE("hoe");
+
+        /** 物品名后缀，注册名格式为 {@code <材料名>_<后缀>}。 */
+        private final String suffix;
+
+        /**
+         * 构造形态常量。
+         *
+         * @param suffix 该形态的物品名后缀
+         */
+        OreItemType(String suffix) {
+            this.suffix = suffix;
+        }
+
+        /**
+         * 获取该形态的物品名后缀。
+         *
+         * @return 物品名后缀，注册名格式为 {@code <材料名>_<后缀>}
+         */
+        public String getSuffix() {
+            return suffix;
+        }
+    }
 
     /** 材料类物品的延迟注册器。 */
     public static final DeferredRegister<Item> OREITEMS =
@@ -58,55 +117,60 @@ public class modOreItem {
      */
     public static void init() {
         if (STEEL_INGOT != null) return;
-        registerOreItem("steel", 1, 2, 3, 11, 20, 21, 22, 23);
+        registerOreItem("steel",
+                OreItemType.INGOT, OreItemType.PLATE, OreItemType.POWDER, OreItemType.TINY_POWDER,
+                OreItemType.PICKAXE, OreItemType.AXE, OreItemType.SHOVEL, OreItemType.HOE);
     }
 
     /**
-     * 按形态编号批量注册指定材料的物品，注册到 {@link #OREITEMS}，并统一归入 {@code part} 物品栏
-     * （工具类形态会被 {@link #getTabForType(int, String)} 改派到其他物品栏）。
+     * 批量注册指定材料的物品，注册到 {@link #OREITEMS}，并统一归入
+     * {@link Tab#PART} 物品栏（工具类形态会被 {@link #getTabForType(OreItemType, Tab)} 改派）。
      *
      * @param material 材料名，将作为物品名的前缀
-     * @param types    要注册的形态编号，含义见类文档
+     * @param types    要注册的形态
      */
-    public static void registerOreItem(String material, int... types) {
-        for (int type : types) {
-            String name = material + "_" + getTypeSuffix(type);
+    public static void registerOreItem(String material, OreItemType... types) {
+        for (OreItemType type : types) {
+            String name = material + "_" + type.getSuffix();
             RegistryObject<Item> item = OREITEMS.register(name, () -> createItem(type));
-            String targetTab = getTabForType(type, "part");
+            Tab targetTab = getTabForType(type, Tab.PART);
             addItemToTab(item, targetTab);
-            if(Objects.equals(material, "steel") && type==1) STEEL_INGOT=item;
+            if(Objects.equals(material, "steel") && type == OreItemType.INGOT) STEEL_INGOT=item;
         }
     }
 
     /**
-     * 按形态编号批量注册指定材料的物品，注册到 {@link modItems#ITEMS}，并使用调用方指定物品栏。
+     * 批量注册指定材料的物品，注册到 {@link modItems#ITEMS}，并使用调用方指定的默认物品栏。
      *
      * @param material 材料名，将作为物品名的前缀
-     * @param tab      默认归属的创造模式物品栏标识
-     * @param types    要注册的形态编号，含义见类文档
+     * @param tab      默认归属的创造模式物品栏
+     * @param types    要注册的形态
      */
-    public static void registerOreItem(String material, String tab, int... types) {
-        for (int type : types) {
-            String name = material + "_" + getTypeSuffix(type);
+    public static void registerOreItem(String material, Tab tab, OreItemType... types) {
+        for (OreItemType type : types) {
+            String name = material + "_" + type.getSuffix();
             RegistryObject<Item> item = modItems.ITEMS.register(name, () -> createItem(type));
-            String targetTab = getTabForType(type, tab);
+            Tab targetTab = getTabForType(type, tab);
             addItemToTab(item, targetTab);
             //if(Objects.equals(material, "steel") && type==1) STEEL_INGOT=item;
         }
     }
 
     /**
-     * 根据形态编号决定物品应当归入的创造模式物品栏。
+     * 根据形态决定物品应当归入的创造模式物品栏。
      * <p>
-     * 目前只有工具类形态（{@code 20}~{@code 23}）会被改派到 {@code consumable}，其余一律使用默认栏位。
+     * 目前只有工具类形态（镐、斧、锹、锄）会被改派到 {@link Tab#CONSUMABLE}，其余一律使用默认物品栏。
+     * <p>
+     * 备注：注释掉的两行属于重构前的数字编号方案（原编号 12 为武器、13 为方块），
+     * 待这两种形态以枚举常量形式实现后再放开。
      *
-     * @param type       形态编号
-     * @param defaultTab 默认物品栏标识
-     * @return 最终归属的物品栏标识
+     * @param type       形态
+     * @param defaultTab 默认物品栏
+     * @return 最终归属的物品栏
      */
-    private static String getTabForType(int type, String defaultTab) {
+    private static Tab getTabForType(OreItemType type, Tab defaultTab) {
         return switch (type) {
-            case 20, 21, 22, 23 -> "consumable";
+            case PICKAXE, AXE, SHOVEL, HOE -> Tab.CONSUMABLE;
             // case 12 -> "weapon";   // 武器类型
             // case 13 -> "block";    // 方块类型
             default -> defaultTab;
@@ -114,82 +178,34 @@ public class modOreItem {
     }
 
     /**
-     * 根据形态编号取得物品名后缀。
-     *
-     * @param type 形态编号，对照表见类文档
-     * @return 对应的物品名后缀；未登记的编号返回 {@code ERROR_item}
-     */
-    private static String getTypeSuffix(int type) {
-        return switch (type) {
-            case 1 -> "ingot";
-            case 2 -> "plate";
-            case 3 -> "powder";
-            //case 4 -> "";
-            //case 5 -> "";
-            case 6 -> "wire_fine";
-            case 7 -> "cast_plate";
-            case 8 -> "weld_plate";
-            case 9 -> "shell";
-            case 10 -> "pipe";
-            case 11 -> "tiny_powder";
-            case 20 -> "pickaxe";
-            case 21 -> "axe";
-            case 22 -> "shovel";
-            case 23 -> "hoe";
-            default -> "ERROR_item";
-        };
-    }
-
-    /**
-     * 根据形态编号创建对应的物品实例。
+     * 根据形态创建对应的物品实例。
      * <p>
-     * {@code 1}~{@code 11} 为普通材料物品；{@code 20}~{@code 23} 为钻石级工具（镐、斧、锹、锄），
-     * 耐久统一为 500。形态编号的含义见类文档。
+     * 材料类形态（锭、板、粉、细线、铸造板、焊接板、壳、管、小撮粉）为普通物品；
+     * 工具类形态（镐、斧、锹、锄）为钻石级工具，耐久统一为 500。
      *
-     * @param type 形态编号
-     * @return 对应的物品实例；未登记的编号返回一个普通占位物品
+     * @param type 形态
+     * @return 对应的物品实例
      */
-    private static Item createItem(int type) {
+    private static Item createItem(OreItemType type) {
         return switch (type) {
-            case 1 ->
+            case INGOT, PLATE, POWDER, WIRE_FINE, CAST_PLATE, WELD_PLATE, SHELL, PIPE, TINY_POWDER ->
                     new Item(new Item.Properties());
-            case 2 ->
-                    new Item(new Item.Properties());
-            case 3 ->
-                    new Item(new Item.Properties());
-            case 4 ->
-                    new Item(new Item.Properties());
-            case 5 ->
-                    new Item(new Item.Properties());
-            case 6 ->
-                    new Item(new Item.Properties());
-            case 7 ->
-                    new Item(new Item.Properties());
-            case 8 ->
-                    new Item(new Item.Properties());
-            case 9 ->
-                    new Item(new Item.Properties());
-            case 10 ->
-                    new Item(new Item.Properties());
-            case 11 ->
-                    new Item(new Item.Properties());
-            case 20 ->
+            case PICKAXE ->
                     new PickaxeItem(Tiers.DIAMOND, 1, -2.8F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 21 ->
+            case AXE ->
                     new AxeItem(Tiers.DIAMOND, 5, -3.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 22 ->
+            case SHOVEL ->
                     new ShovelItem(Tiers.DIAMOND, 1.5F, -3.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            case 23 ->
+            case HOE ->
                     new HoeItem(Tiers.DIAMOND, -2, -1.0F, new Item.Properties()
                             .stacksTo(1)
                             .durability(500));
-            default -> new Item(new Item.Properties());
         };
     }
 

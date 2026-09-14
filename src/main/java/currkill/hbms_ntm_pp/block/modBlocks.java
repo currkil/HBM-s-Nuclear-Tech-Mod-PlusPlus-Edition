@@ -2,6 +2,7 @@ package currkill.hbms_ntm_pp.block;
 
 import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.item.modItems;
+import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -36,14 +37,14 @@ public class modBlocks {
     public static final RegistryObject<Block> STEEL_BLOCK =
             registerBlock("steel_block", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,50.0F)
-                    .sound(SoundType.METAL)),"block"
+                    .sound(SoundType.METAL)), Tab.BLOCK
             ,"iron","pickaxe");
 
     /** 发射台部件，导弹发射台多方块结构的组成方块。 */
     public static final RegistryObject<Block> STRUCT_LAUNCHER =
             registerBlock("struct_launcher", () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F,10.0F)
-                    .sound(SoundType.METAL)),"block"
+                    .sound(SoundType.METAL)), Tab.BLOCK
             ,"iron","pickaxe");
 
     /**
@@ -63,12 +64,12 @@ public class modBlocks {
      *
      * @param name    方块的注册名
      * @param block   方块实例的构造器
-     * @param tab     归属的创造模式物品栏标识
+     * @param tab     归属的创造模式物品栏
      * @param tagType 挖掘标签标识，可用取值见 {@link currkill.hbms_ntm_pp.tag.modTags}
      * @param <T>     方块类型
      * @return 注册得到的方块
      */
-    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block,String tab,String... tagType) {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block,Tab tab,String... tagType) {
         RegistryObject<T> blocks = BLOCKS.register(name, block);
         RegistryObject<Item> blockitem = registerBlockItems(name, blocks);
         addItemToTab(blockitem,tab);

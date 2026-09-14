@@ -19,7 +19,7 @@ import java.util.List;
  * 创造模式物品栏的注册类，同时负责物品的分派。
  * <p>
  * 每个物品栏都对应一个静态 {@link List}，其它注册类通过
- * {@link #addItemToTab(RegistryObject, String)} 按标识把物品投入对应的 List，
+ * {@link #addItemToTab(RegistryObject, Tab)} 用 {@link Tab} 指定归属，
  * 物品栏在 {@code displayItems} 中再把 List 的内容整体输出。
  * <p>
  * 物品栏之间的显示顺序由 {@code withTabsBefore} 依次串联决定：
@@ -73,26 +73,60 @@ public class modCreativeModeTab {
     public static final List<RegistryObject<Item>> CONSUMABLE_ITEMS = new ArrayList<>();
 
     /**
-     * 按标识把物品投入对应的物品栏集合。
+     * 创造模式物品栏的标识。
      * <p>
-     * 可用的标识为 {@code part}、{@code control}、{@code template}、{@code block}、
-     * {@code machine}、{@code nuke}、{@code missile}、{@code weapon}、{@code consumable}；
-     * 传入其它标识时该物品不会被分派到任何物品栏。
+     * 每个常量对应一个物品栏及其背后的物品集合。注册物品时用它指定归属，
+     * 取代了原先易于写错的字符串标识。
+     *
+     * @author currkill-deepseek
+     */
+    public enum Tab {
+
+        /** 「资源和零件」物品栏。 */
+        PART,
+
+        /** 「机器项目和燃料」物品栏。 */
+        CONTROL,
+
+        /** 「模板」物品栏。 */
+        TEMPLATE,
+
+        /** 「矿石和方块」物品栏。 */
+        BLOCK,
+
+        /** 「机器」物品栏。 */
+        MACHINE,
+
+        /** 「炸弹」物品栏。 */
+        NUKE,
+
+        /** 「导弹和卫星」物品栏。 */
+        MISSILE,
+
+        /** 「武器和炮塔」物品栏。 */
+        WEAPON,
+
+        /** 「食物和装备」物品栏。 */
+        CONSUMABLE
+    }
+
+    /**
+     * 把物品投入指定物品栏的物品集合。
      *
      * @param Object 待分派的物品注册对象
-     * @param tab    目标物品栏标识
+     * @param tab    目标物品栏
      */
-    public static void addItemToTab(RegistryObject<Item> Object, String tab) {
+    public static void addItemToTab(RegistryObject<Item> Object, Tab tab) {
         switch (tab) {
-            case "part" -> PART_ITEMS.add(Object);
-            case "control" -> CONTROL_ITEMS.add(Object);
-            case "template" -> TEMPLATE_ITEMS.add(Object);
-            case "block" -> BLOCK_ITEMS.add(Object);
-            case "machine" -> MACHINE_ITEMS.add(Object);
-            case "nuke" -> NUKE_ITEMS.add(Object);
-            case "missile" -> MISSILE_ITEMS.add(Object);
-            case "weapon" -> WEAPON_ITEMS.add(Object);
-            case "consumable" -> CONSUMABLE_ITEMS.add(Object);
+            case PART -> PART_ITEMS.add(Object);
+            case CONTROL -> CONTROL_ITEMS.add(Object);
+            case TEMPLATE -> TEMPLATE_ITEMS.add(Object);
+            case BLOCK -> BLOCK_ITEMS.add(Object);
+            case MACHINE -> MACHINE_ITEMS.add(Object);
+            case NUKE -> NUKE_ITEMS.add(Object);
+            case MISSILE -> MISSILE_ITEMS.add(Object);
+            case WEAPON -> WEAPON_ITEMS.add(Object);
+            case CONSUMABLE -> CONSUMABLE_ITEMS.add(Object);
         }
     }
 
