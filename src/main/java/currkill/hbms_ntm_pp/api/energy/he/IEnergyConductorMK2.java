@@ -1,19 +1,21 @@
 package currkill.hbms_ntm_pp.api.energy.he;
 
 /**
- * Port of HBM's {@code api.hbm.energymk2.IEnergyConductorMK2}.
+ * HE 能量网络中「导线」接口。
  * <p>
- * Implemented by cables and other blocks that form the power net itself.
+ * 移植自 HBM 的 {@code api.hbm.energymk2.IEnergyConductorMK2}。
  * <p>
- * TODO(node layer): HBM's version declares
+ * 由线缆以及构成电网本身的其他方块实现。实现了本接口的方块会被供电方与受电方视为电网入口。
+ * <p>
+ * 待办：HBM 的版本声明了
  * <pre>default PowerNode createNode()</pre>
- * which builds a {@code Nodespace.PowerNode} at the tile's position with the six neighbouring
- * {@code DirPos} connections (POS_X/NEG_X/POS_Y/NEG_Y/POS_Z/NEG_Z).
- * That requires the UNINOS node framework ({@code com.hbm.uninos}: GenNode / NodeNet /
- * UniNodespace / PowerNetProvider), which is not ported yet, so this is currently a marker
- * interface only. See the "能量网络与节点层" task on the board.
+ * 用于在方块实体所在位置构建 {@code Nodespace.PowerNode}，并接上六个方向的 {@code DirPos} 连接
+ * （POS_X / NEG_X / POS_Y / NEG_Y / POS_Z / NEG_Z）。
+ * 该方法依赖 UNINOS 节点框架（{@code com.hbm.uninos}：GenNode / NodeNet / UniNodespace /
+ * PowerNetProvider），目前尚未移植，因此本接口暂时只是标记接口。
+ * 详见任务板上的「能量网络与节点层」任务。
  *
- * @author hbm
+ * @author currkill-deepseek
  */
 public interface IEnergyConductorMK2 extends IEnergyConnectorMK2 {
 }

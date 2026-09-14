@@ -5,20 +5,28 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 
 /**
- * Port of HBM's {@code api.hbm.energymk2.IEnergyConnectorBlock}.
+ * 「仅用于渲染」的线缆连接方块接口。
  * <p>
- * Interface for all blocks that should visually connect to cables without having an
- * IEnergyConnectorMK2 tile entity. This is meant for BLOCKS.
+ * 移植自 HBM 的 {@code api.hbm.energymk2.IEnergyConnectorBlock}。
  * <p>
- * HBM's signature used {@code IBlockAccess}, which on 1.20.1 is {@link BlockGetter}.
+ * 供那些需要与线缆产生视觉连接、但本身没有 {@link IEnergyConnectorMK2} 方块实体的方块实现。
+ * <b>本接口面向方块，而不是方块实体。</b>
+ * <p>
+ * HBM 原签名使用 {@code IBlockAccess}，在 1.20.1 中对应 {@link BlockGetter}。
  *
- * @author hbm
+ * @author currkill-deepseek
  */
 public interface IEnergyConnectorBlock {
 
 	/**
-	 * Same as IEnergyConnector's method but for regular blocks that might not even have TEs.
-	 * Used for rendering only!
+	 * 与 {@link IEnergyConnectorMK2#canConnect(Direction)} 含义一致，但面向可能根本没有方块实体的普通方块。
+	 * <p>
+	 * 仅用于渲染判定，不参与实际能量传输。
+	 *
+	 * @param level 所在世界，只读访问
+	 * @param pos   被检查的方块位置
+	 * @param dir   被检查的那一面
+	 * @return 该面可以接入时返回 {@code true}，否则返回 {@code false}
 	 */
 	boolean canConnect(BlockGetter level, BlockPos pos, Direction dir);
 }

@@ -6,36 +6,58 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
- * Port of HBM's {@code api.hbm.energymk2.IEnergyProviderMK2}.
+ * HE 能量网络中「供电方」接口。
  * <p>
- * If it sends energy, use this.
+ * 移植自 HBM 的 {@code api.hbm.energymk2.IEnergyProviderMK2}。
+ * <p>
+ * 凡是对外输出能量的方块实体都应实现本接口。
  *
- * @author hbm
+ * @author currkill-deepseek
  */
 public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
 	/**
-	 * Uses up available power, default implementation has no sanity checking, make sure that the
-	 * requested power is lequal to the current power.
+	 * 消耗指定数量的能量。
+	 * <p>
+	 * 默认实现不含任何合法性校验，调用方必须保证请求值不大于当前能量值。
+	 *
+	 * @param power 要消耗的能量值，单位为 HE
 	 */
 	default void usePower(long power) {
 		this.setPower(this.getPower() - power);
 	}
 
+	/**
+	 * 获取本供电方单次传输的能量上限。
+	 *
+	 * @return 供电速率，默认等于能量存储上限
+	 */
 	default long getProviderSpeed() {
 		return this.getMaxPower();
 	}
 
 	/**
-	 * HBM's signature was {@code tryProvide(World world, int x, int y, int z, ForgeDirection dir)}.
-	 * On 1.20.1 that maps to a {@link Level} plus a {@link BlockPos} of the neighbour being provided to.
+	 * 尝试向指定的相邻方块供电。
+	 * <p>
+	 * 当相邻方块是允许直连的受电方时，直接按双方速率与剩余容量的较小值完成一次传输，
+	 * 并把未能送出的部分退回。
+	 * <p>
+	 * HBM 原签名为 {@code tryProvide(World world, int x, int y, int z, ForgeDirection dir)}，
+	 * 在 1.20.1 中映射为 {@link Level} 加目标相邻方块的 {@link BlockPos}。
+	 * <p>
+	 * 待办：当相邻方块是接受该方向连接的 {@link IEnergyConductorMK2} 时，
+	 * 应通过 Nodespace 把本供电方注册到其所在的电网；电网层尚未移植。
+	 * <p>
+	 * 待办：HBM 在 {@code particleDebug} 开启时会发送 {@code AuxParticlePacketNT} 的
+	 * "network"/"power" 粒子，该逻辑依赖尚未移植的网络包与线程系统。
+	 *
+	 * @param level 所在世界
+	 * @param pos   目标相邻方块的位置
+	 * @param dir   从本方块指向目标相邻方块的方向
 	 */
 	default void tryProvide(Level level, BlockPos pos, Direction dir) {
 
 		BlockEntity te = level.getBlockEntity(pos);
-
-		// TODO(node layer): if te is an IEnergyConductorMK2 that accepts dir.getOpposite(),
-		//  register this provider on the neighbour's power net via Nodespace.
 
 		if(te instanceof IEnergyReceiverMK2 rec && te != this) {
 			if(rec.canConnect(dir.getOpposite()) && rec.allowDirectProvision()) {
@@ -46,8 +68,5 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 				this.usePower(toTransfer);
 			}
 		}
-
-		// TODO(particle debug): HBM sends an AuxParticlePacketNT "network"/"power" particle here
-		//  when particleDebug is enabled. That needs the packet + threading systems.
 	}
 }
