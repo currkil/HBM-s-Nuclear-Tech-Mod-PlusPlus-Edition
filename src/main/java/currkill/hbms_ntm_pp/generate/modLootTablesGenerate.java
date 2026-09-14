@@ -7,7 +7,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 方块掉落表 JSON 的生成器。
+ * <p>
+ * 生成结果写入 {@code src/main/resources/data/hbms_ntm_pp/loot_tables/blocks/<方块名>.json}。
+ * 掉落表固定为「掉落自身」，并附带 {@code survives_explosion} 条件（即被爆炸破坏时也正常掉落）。
+ *
+ * @author currkill-deepseek
+ */
 public class modLootTablesGenerate {
+
+    /**
+     * 生成指定方块的掉落表。
+     *
+     * @param blockName    方块名，同时作为掉落表文件名与掉落物名
+     * @param generateType 生成类型：{@code self} 表示普通方块，直接掉落自身；
+     *                     {@code ore} 表示矿石，额外附加时运加成函数
+     * @throws Exception 生成类型非法或写文件失败时抛出
+     */
     public static void generate(String blockName, String generateType) throws Exception {
         Map<String, Object> lootTable = new LinkedHashMap<>();
         lootTable.put("type","minecraft:block");

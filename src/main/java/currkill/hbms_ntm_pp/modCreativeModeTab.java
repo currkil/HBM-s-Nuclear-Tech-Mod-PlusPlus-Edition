@@ -15,25 +15,73 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.List;
 
-//创建创造模式物品栏
+/**
+ * 创造模式物品栏的注册类，同时负责物品的分派。
+ * <p>
+ * 每个物品栏都对应一个静态 {@link List}，其它注册类通过
+ * {@link #addItemToTab(RegistryObject, String)} 按标识把物品投入对应的 List，
+ * 物品栏在 {@code displayItems} 中再把 List 的内容整体输出。
+ * <p>
+ * 物品栏之间的显示顺序由 {@code withTabsBefore} 依次串联决定：
+ * 资源和零件 → 机器项目和燃料 → 模板 → 矿石和方块 → 机器 → 炸弹 → 导弹和卫星 → 武器和炮塔 → 食物和装备。
+ *
+ * @author currkill-deepseek
+ */
 public class modCreativeModeTab {
+
+    /** 创造模式物品栏的延迟注册器。 */
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Hbms_ntm_pp.MODID);
 
+    /**
+     * 把一组物品依次放入物品栏的输出中。
+     *
+     * @param output      物品栏的显示输出
+     * @param itemObjects 待输出的物品注册对象
+     */
     private static void disPlayAll(CreativeModeTab.Output output, List<RegistryObject<Item>> itemObjects) {
         for(RegistryObject<Item> Object : itemObjects) {
             output.accept(Object.get());
         }
     }
+
+    /** 「资源和零件」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> PART_ITEMS = new ArrayList<>();
+
+    /** 「机器项目和燃料」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> CONTROL_ITEMS = new ArrayList<>();
+
+    /** 「模板」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> TEMPLATE_ITEMS = new ArrayList<>();
+
+    /** 「矿石和方块」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> BLOCK_ITEMS = new ArrayList<>();
+
+    /** 「机器」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> MACHINE_ITEMS = new ArrayList<>();
+
+    /** 「炸弹」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> NUKE_ITEMS = new ArrayList<>();
+
+    /** 「导弹和卫星」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> MISSILE_ITEMS = new ArrayList<>();
+
+    /** 「武器和炮塔」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> WEAPON_ITEMS = new ArrayList<>();
+
+    /** 「食物和装备」物品栏的物品集合。 */
     public static final List<RegistryObject<Item>> CONSUMABLE_ITEMS = new ArrayList<>();
+
+    /**
+     * 按标识把物品投入对应的物品栏集合。
+     * <p>
+     * 可用的标识为 {@code part}、{@code control}、{@code template}、{@code block}、
+     * {@code machine}、{@code nuke}、{@code missile}、{@code weapon}、{@code consumable}；
+     * 传入其它标识时该物品不会被分派到任何物品栏。
+     *
+     * @param Object 待分派的物品注册对象
+     * @param tab    目标物品栏标识
+     */
     public static void addItemToTab(RegistryObject<Item> Object, String tab) {
         switch (tab) {
             case "part" -> PART_ITEMS.add(Object);
@@ -48,90 +96,103 @@ public class modCreativeModeTab {
         }
     }
 
-    //资源和零件 Resources and Parts
+    /** 「资源和零件」物品栏，图标为钢锭。 */
     public static final RegistryObject<CreativeModeTab> PARTS_TAB =
             CREATIVE_MODE_TABS.register("parts_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modOreItem.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.parts_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, PART_ITEMS);
                     })
                     .build());
-    //机器项目和燃料 Machine Items and Fuel
+
+    /** 「机器项目和燃料」物品栏，图标为钢钻头。 */
     public static final RegistryObject<CreativeModeTab> CONTROL_TAB =
             CREATIVE_MODE_TABS.register("control_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.DRILLBIT_STEEL.get()))
                     .title(Component.translatable("itemGroup.control_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, CONTROL_ITEMS);
                     }).withTabsBefore(PARTS_TAB.getKey())
                     .build());
-    //模板 Template
+
+    /** 「模板」物品栏，图标为机器模板文件夹，带搜索栏。 */
     public static final RegistryObject<CreativeModeTab> TEMPLATE_TAB =
             CREATIVE_MODE_TABS.register("template_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.TEMPLATE_FOLDER.get()))
                     .title(Component.translatable("itemGroup.template_tab"))
                     .withSearchBar()
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, TEMPLATE_ITEMS);
                     }).withTabsBefore(CONTROL_TAB.getKey())
                     .build());
-    //矿石和方块 Ores and Blocks
+
+    /** 「矿石和方块」物品栏，图标为钢块。 */
     public static final RegistryObject<CreativeModeTab> BLOCK_TAB =
             CREATIVE_MODE_TABS.register("block_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modBlocks.STEEL_BLOCK.get()))
                     .title(Component.translatable("itemGroup.block_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, BLOCK_ITEMS);
                     }).withTabsBefore(TEMPLATE_TAB.getKey())
                     .build());
-    //机器 Machines
+
+    /** 「机器」物品栏。图标尚未确定，待首个机器实现后补上。 */
     public static final RegistryObject<CreativeModeTab> MACHINE_TAB =
             CREATIVE_MODE_TABS.register("machine_tab", () -> CreativeModeTab.builder()
                     //.icon(() -> new ItemStack(modItems.STEEL_INGOT.get()))
                     .title(Component.translatable("itemGroup.machine_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, MACHINE_ITEMS);
                     }).withTabsBefore(BLOCK_TAB.getKey())
                     .build());
-    //炸弹 Bombs
+
+    /** 「炸弹」物品栏，图标为点火器（胖子），背景贴图由 Mixin 单独替换。 */
     public static final RegistryObject<CreativeModeTab> NUKE_TAB =
             CREATIVE_MODE_TABS.register("nuke_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.MAN_IGNITER.get()))
                     .title(Component.translatable("itemGroup.nuke_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, NUKE_ITEMS);
                     }).withTabsBefore(MACHINE_TAB.getKey())
                     .build());
-    //导弹和卫星 Missiles and Satellites
+
+    /** 「导弹和卫星」物品栏，图标暂用异虫腺体。 */
     public static final RegistryObject<CreativeModeTab> MISSILE_TAB =
             CREATIVE_MODE_TABS.register("missile_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.missile_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, MISSILE_ITEMS);
                     }).withTabsBefore(NUKE_TAB.getKey())
                     .build());
-    //武器和炮塔 Weapons and Turrets
+
+    /** 「武器和炮塔」物品栏，图标暂用异虫腺体。 */
     public static final RegistryObject<CreativeModeTab> WEAPON_TAB =
             CREATIVE_MODE_TABS.register("weapon_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.GLYPHID_GLAND_EMPTY.get()))
                     .title(Component.translatable("itemGroup.weapon_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, WEAPON_ITEMS);
                     }).withTabsBefore(MISSILE_TAB.getKey())
                     .build());
-    //食物和装备 Consumables and Gears
+
+    /** 「食物和装备」物品栏，图标为核子可乐。 */
     public static final RegistryObject<CreativeModeTab> CONSUMABLE_TAB =
             CREATIVE_MODE_TABS.register("consumable_tab", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(modItems.BOTTLE_NUKA.get()))
                     .title(Component.translatable("itemGroup.consumable_tab"))
-                    .displayItems((pParameters, pOutput) -> {//物品列表
+                    .displayItems((pParameters, pOutput) -> {
                         disPlayAll(pOutput, CONSUMABLE_ITEMS);
                     }).withTabsBefore(WEAPON_TAB.getKey())
                     .build());
 
 
+    /**
+     * 把本类持有的物品栏注册器挂到模组事件总线上。
+     *
+     * @param eventBus 模组事件总线
+     */
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }
