@@ -1,17 +1,13 @@
 package currkill.hbms_ntm_pp.item;
 
-import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.item.foodItems.modColaItem;
 import currkill.hbms_ntm_pp.item.foodItems.modOpenerItem;
 import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
+import static currkill.hbms_ntm_pp.registryBuilder.modDeferredRegisters.REGISTRY;
 
 /**
  * 常规物品的注册类。
@@ -19,16 +15,12 @@ import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
  * 只负责注册不属于「材料 × 形态」体系的零散物品；钢锭、钢板这类按材料批量生成的物品由
  * {@link modOreItem} 统一处理。
  * <p>
- * 物品注册完成后，由类末尾的静态初始化块通过
- * {@link currkill.hbms_ntm_pp.modCreativeModeTab#addItemToTab} 把它们分派到对应的创造模式物品栏。
+ * 所有注册动作都由 {@link currkill.hbms_ntm_pp.registryBuilder.modRegistryBuilder} 的流式构造器完成，
+ * 物品栏归属直接用 {@link Tab} 在链式调用里指定。
  *
  * @author currkill-deepseek
  */
 public class modItems {
-
-    /** 常规物品的延迟注册器。 */
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, Hbms_ntm_pp.MODID);
 
     //资源和零件 Resources and Parts
     //public static final RegistryObject<Item> STEEL_INGOT =
@@ -36,58 +28,66 @@ public class modItems {
 
     /** 钢钻头，属于机器类零件，不可堆叠。 */
     public static final RegistryObject<Item> DRILLBIT_STEEL =
-            ITEMS.register("drillbit_steel", ()-> new Item(new Item.Properties().stacksTo(1)));
+            REGISTRY.item("drillbit_steel")
+                    .stacksTo(1)
+                    .tab(Tab.CONTROL)
+                    .register();
 
     /** 机器模板文件夹，用于存放机器模板配置。 */
     public static final RegistryObject<Item> TEMPLATE_FOLDER =
-            ITEMS.register("template_folder", ()-> new Item(new Item.Properties()));
+            REGISTRY.item("template_folder")
+                    .tab(Tab.TEMPLATE)
+                    .register();
 
     /** 点火器（胖子），核弹起爆所需的引爆装置。 */
     public static final RegistryObject<Item> MAN_IGNITER =
-            ITEMS.register("booms/man_igniter", ()-> new Item(new Item.Properties()));
+            REGISTRY.item("booms/man_igniter")
+                    .tab(Tab.NUKE)
+                    .register();
 
     /** 异虫腺体，导弹与卫星相关材料。 */
     public static final RegistryObject<Item> GLYPHID_GLAND_EMPTY =
-            ITEMS.register("glyphid_gland_empty", ()-> new Item(new Item.Properties()));
+            REGISTRY.item("glyphid_gland_empty")
+                    .tab(Tab.MISSILE)
+                    .register();
 
     /** 核子可乐，需配合开瓶器饮用，详见 {@link modColaItem}。 */
     public static final RegistryObject<Item> BOTTLE_NUKA =
-            ITEMS.register("bottle_nuka", ()-> new modColaItem(new Item.Properties().food(new FoodProperties.Builder()
-                    .nutrition(0)
-                    .saturationMod(0f)
-                    .alwaysEat()
-                    .build())));
+            REGISTRY.item("bottle_nuka")
+                    .factory(modColaItem::new)
+                    .food(new FoodProperties.Builder()
+                            .nutrition(0)
+                            .saturationMod(0f)
+                            .alwaysEat()
+                            .build())
+                    .tab(Tab.CONSUMABLE)
+                    .register();
 
     /** HBM 自制开瓶器，兼具近战能力，详见 {@link modOpenerItem}。 */
     public static final RegistryObject<Item> BOTTLE_OPENER =
-            ITEMS.register("bottle_opener", ()-> new modOpenerItem(new Item.Properties(),4.5F));
+            REGISTRY.item("bottle_opener")
+                    .factory(p -> new modOpenerItem(p, 4.5F))
+                    .tab(Tab.CONSUMABLE)
+                    .register();
 
     /** 空可乐瓶，饮用核子可乐后返还。 */
     public static final RegistryObject<Item> BOTTLE_EMPTY =
-            ITEMS.register("bottle_empty", ()-> new Item(new Item.Properties()));
+            REGISTRY.item("bottle_empty")
+                    .tab(Tab.CONSUMABLE)
+                    .register();
 
     /** 核子可乐瓶盖，饮用核子可乐后返还。 */
     public static final RegistryObject<Item> CAP_NUKA =
-            ITEMS.register("cap_nuka", ()-> new Item(new Item.Properties()));
-
-    static {
-        //addItemToTab(STEEL_INGOT,"part");
-        addItemToTab(DRILLBIT_STEEL, Tab.CONTROL);
-        addItemToTab(TEMPLATE_FOLDER, Tab.TEMPLATE);
-        addItemToTab(MAN_IGNITER, Tab.NUKE);
-        addItemToTab(GLYPHID_GLAND_EMPTY, Tab.MISSILE);
-        addItemToTab(BOTTLE_EMPTY, Tab.CONSUMABLE);
-        addItemToTab(BOTTLE_NUKA, Tab.CONSUMABLE);
-        addItemToTab(BOTTLE_OPENER, Tab.CONSUMABLE);
-        addItemToTab(CAP_NUKA, Tab.CONSUMABLE);
-    }
+            REGISTRY.item("cap_nuka")
+                    .tab(Tab.CONSUMABLE)
+                    .register();
 
     /**
-     * 把本类持有的物品注册器挂到模组事件总线上。
-     *
-     * @param eventBus 模组事件总线
+     * 触发本类的静态初始化，使类中的流式构造器执行注册。
+     * <p>
+     * 由 {@link currkill.hbms_ntm_pp.registryBuilder.modDeferredRegisters#register_all} 调用，
+     * 无需在别处重复调用。
      */
-    public static void register(IEventBus eventBus) {
-        ITEMS.register(eventBus);
+    public static void load() {
     }
 }

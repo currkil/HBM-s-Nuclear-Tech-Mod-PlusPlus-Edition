@@ -1,18 +1,13 @@
 package currkill.hbms_ntm_pp.item;
 
-import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.modCreativeModeTab.Tab;
+import currkill.hbms_ntm_pp.registryBuilder.modRegistryBuilder.InnerItemBuilder;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Objects;
 
-import static currkill.hbms_ntm_pp.modCreativeModeTab.addItemToTab;
-import static currkill.hbms_ntm_pp.tag.modTags.addBlockToTag;
+import static currkill.hbms_ntm_pp.registryBuilder.modDeferredRegisters.REGISTRY;
 
 /**
  * 「材料 × 形态」物品的批量注册器。
@@ -22,11 +17,15 @@ import static currkill.hbms_ntm_pp.tag.modTags.addBlockToTag;
  * {@code registerOreItem("steel", OreItemType.INGOT, OreItemType.PLATE)} 会注册出
  * {@code steel_ingot} 与 {@code steel_plate}。
  * <p>
- * 形态本身由 {@link OreItemType} 枚举描述，取代了原先 1=锭、2=板 之类的裸数字编号。
+ * 形态本身由 {@link OreItemType} 枚举描述，取代了原先 1=锭、2=板 之类的裸数字编号；
+ * 实际注册则交给 {@link currkill.hbms_ntm_pp.registryBuilder.modRegistryBuilder} 的流式构造器。
  *
  * @author currkill-deepseek
  */
 public class modOreItem {
+
+    /** 工具类形态的耐久值 */
+    private static final int TOOL_DURABILITY = 500;
 
     /**
      * 材料的物品形态。
@@ -40,71 +39,78 @@ public class modOreItem {
     public enum OreItemType {
 
         /** 锭。 */
-        INGOT("ingot"),
+        INGOT("ingot", false),
 
         /** 板。 */
-        PLATE("plate"),
+        PLATE("plate", false),
 
         /** 粉。 */
-        POWDER("powder"),
+        POWDER("powder", false),
         //case 4 -> "";
         //case 5 -> "";
 
         /** 细线。 */
-        WIRE_FINE("wire_fine"),
+        WIRE_FINE("wire_fine", false),
 
         /** 铸造板。 */
-        CAST_PLATE("cast_plate"),
+        CAST_PLATE("cast_plate", false),
 
         /** 焊接板。 */
-        WELD_PLATE("weld_plate"),
+        WELD_PLATE("weld_plate", false),
 
         /** 壳。 */
-        SHELL("shell"),
+        SHELL("shell", false),
 
         /** 管。 */
-        PIPE("pipe"),
+        PIPE("pipe", false),
 
         /** 小撮粉。 */
-        TINY_POWDER("tiny_powder"),
+        TINY_POWDER("tiny_powder", false),
 
         /** 镐。 */
-        PICKAXE("pickaxe"),
+        PICKAXE("pickaxe", true),
 
         /** 斧。 */
-        AXE("axe"),
+        AXE("axe", true),
 
         /** 锹。 */
-        SHOVEL("shovel"),
+        SHOVEL("shovel", true),
 
         /** 锄。 */
-        HOE("hoe");
+        HOE("hoe", true);
 
         /** 物品名后缀，注册名格式为 {@code <材料名>_<后缀>}。 */
         private final String suffix;
 
+        /** 该形态是否为工具。 */
+        private final boolean tool;
+
         /**
-         * 构造形态常量。
-         *
+         * 构造形态常量
          * @param suffix 该形态的物品名后缀
+         * @param tool 该形态是否为工具
          */
-        OreItemType(String suffix) {
+        OreItemType(String suffix, boolean tool) {
             this.suffix = suffix;
+            this.tool = tool;
         }
 
         /**
-         * 获取该形态的物品名后缀。
-         *
+         * 获取该形态的物品名后缀
          * @return 物品名后缀，注册名格式为 {@code <材料名>_<后缀>}
          */
         public String getSuffix() {
             return suffix;
         }
-    }
 
-    /** 材料类物品的延迟注册器。 */
-    public static final DeferredRegister<Item> OREITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, Hbms_ntm_pp.MODID);
+        /**
+         * 判断该形态是否为工具
+         * @return 是工具返回true，否则返回false
+         */
+        public boolean isTool() {
+            return tool;
+        }
+    }
 
     /** 钢锭。除了作为普通材料，还被用作「资源和零件」创造模式物品栏的图标。 */
     public static RegistryObject<Item> STEEL_INGOT = null;
@@ -123,36 +129,30 @@ public class modOreItem {
     }
 
     /**
-     * 批量注册指定材料的物品，注册到 {@link #OREITEMS}，并统一归入
-     * {@link Tab#PART} 物品栏（工具类形态会被 {@link #getTabForType(OreItemType, Tab)} 改派）。
-     *
+     * 批量注册指定材料的物品，默认归入{@link Tab#PART}物品栏
      * @param material 材料名，将作为物品名的前缀
-     * @param types    要注册的形态
+     * @param types 要注册的形态
      */
     public static void registerOreItem(String material, OreItemType... types) {
-        for (OreItemType type : types) {
-            String name = material + "_" + type.getSuffix();
-            RegistryObject<Item> item = OREITEMS.register(name, () -> createItem(type));
-            Tab targetTab = getTabForType(type, Tab.PART);
-            addItemToTab(item, targetTab);
-            if(Objects.equals(material, "steel") && type == OreItemType.INGOT) STEEL_INGOT=item;
-        }
+        registerOreItem(material, Tab.PART, types);
     }
 
     /**
-     * 批量注册指定材料的物品，注册到 {@link modItems#ITEMS}，并使用调用方指定的默认物品栏。
-     *
+     * <p>批量注册指定材料的物品</p>
+     * <p>工具类形态会自动套用{@link #TOOL_DURABILITY}点耐久，并改派到{@link Tab#CONSUMABLE}物品栏</p>
      * @param material 材料名，将作为物品名的前缀
-     * @param tab      默认归属的创造模式物品栏
-     * @param types    要注册的形态
+     * @param tab 默认归属的创造模式物品栏
+     * @param types 要注册的形态
      */
     public static void registerOreItem(String material, Tab tab, OreItemType... types) {
         for (OreItemType type : types) {
-            String name = material + "_" + type.getSuffix();
-            RegistryObject<Item> item = modItems.ITEMS.register(name, () -> createItem(type));
-            Tab targetTab = getTabForType(type, tab);
-            addItemToTab(item, targetTab);
-            //if(Objects.equals(material, "steel") && type==1) STEEL_INGOT=item;
+            InnerItemBuilder builder = REGISTRY.item(material + "_" + type.getSuffix())
+                    .factory(p -> createItem(type, p))
+                    .tab(getTabForType(type, tab));
+            if(type.isTool()) builder.durability(TOOL_DURABILITY);
+
+            RegistryObject<Item> item = builder.register();
+            if(Objects.equals(material, "steel") && type == OreItemType.INGOT) STEEL_INGOT = item;
         }
     }
 
@@ -181,31 +181,20 @@ public class modOreItem {
      * 根据形态创建对应的物品实例。
      * <p>
      * 材料类形态（锭、板、粉、细线、铸造板、焊接板、壳、管、小撮粉）为普通物品；
-     * 工具类形态（镐、斧、锹、锄）为钻石级工具，耐久统一为 500。
+     * 工具类形态（镐、斧、锹、锄）为钻石级工具。
      *
-     * @param type 形态
+     * @param type       形态
+     * @param properties 由流式构造器准备好的物品属性
      * @return 对应的物品实例
      */
-    private static Item createItem(OreItemType type) {
+    private static Item createItem(OreItemType type, Item.Properties properties) {
         return switch (type) {
             case INGOT, PLATE, POWDER, WIRE_FINE, CAST_PLATE, WELD_PLATE, SHELL, PIPE, TINY_POWDER ->
-                    new Item(new Item.Properties());
-            case PICKAXE ->
-                    new PickaxeItem(Tiers.DIAMOND, 1, -2.8F, new Item.Properties()
-                            .stacksTo(1)
-                            .durability(500));
-            case AXE ->
-                    new AxeItem(Tiers.DIAMOND, 5, -3.0F, new Item.Properties()
-                            .stacksTo(1)
-                            .durability(500));
-            case SHOVEL ->
-                    new ShovelItem(Tiers.DIAMOND, 1.5F, -3.0F, new Item.Properties()
-                            .stacksTo(1)
-                            .durability(500));
-            case HOE ->
-                    new HoeItem(Tiers.DIAMOND, -2, -1.0F, new Item.Properties()
-                            .stacksTo(1)
-                            .durability(500));
+                    new Item(properties);
+            case PICKAXE -> new PickaxeItem(Tiers.DIAMOND, 1, -2.8F, properties);
+            case AXE -> new AxeItem(Tiers.DIAMOND, 5, -3.0F, properties);
+            case SHOVEL -> new ShovelItem(Tiers.DIAMOND, 1.5F, -3.0F, properties);
+            case HOE -> new HoeItem(Tiers.DIAMOND, -2, -1.0F, properties);
         };
     }
 
@@ -213,13 +202,4 @@ public class modOreItem {
     //    //registerOreItem("steel",1,2,3,5,6,7,8,9,10,20,21,22,23);
     //     registerOreItem("steel",1,2,3,11,20,21,22,23);
     //}
-
-    /**
-     * 把本类持有的物品注册器挂到模组事件总线上。
-     *
-     * @param eventBus 模组事件总线
-     */
-    public static void register(IEventBus eventBus) {
-        OREITEMS.register(eventBus);
-    }
 }

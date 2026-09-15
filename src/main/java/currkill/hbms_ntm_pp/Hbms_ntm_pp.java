@@ -1,10 +1,7 @@
 package currkill.hbms_ntm_pp;
 
 import com.mojang.logging.LogUtils;
-import currkill.hbms_ntm_pp.block.modBlocks;
-import currkill.hbms_ntm_pp.item.modItems;
-import currkill.hbms_ntm_pp.block.modOres;
-import currkill.hbms_ntm_pp.item.modOreItem;
+import currkill.hbms_ntm_pp.registryBuilder.modDeferredRegisters;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,7 +21,7 @@ import org.slf4j.Logger;
 /**
  * HBM's Nuclear Tech Mod: PlusPlus Edition 的主类，同时也是整个模组的加载入口。
  * <p>
- * 负责把各个注册器挂到模组事件总线上，并触发需要立刻执行的初始化逻辑。
+ * 负责把注册器挂到模组事件总线上，并触发需要立刻执行的初始化逻辑。
  *
  * @author currkill-deepseek
  */
@@ -40,19 +37,15 @@ public class Hbms_ntm_pp {
     /**
      * 模组入口构造函数，由 Forge 在加载阶段调用。
      * <p>
-     * 此处集中登记各个注册器，并调用 {@link modOreItem#init()} 完成材料类物品的注册。
+     * 方块与物品统一交给{@link modDeferredRegisters#register_all(IEventBus)}注册，
+     * 创造模式物品栏则单独登记。
      */
     @SuppressWarnings("removal")
     public Hbms_ntm_pp() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modOres.register(modEventBus);
-        modItems.register(modEventBus);
-        modOreItem.register(modEventBus);
-        modBlocks.register(modEventBus);
+        modDeferredRegisters.register_all(modEventBus);
         modCreativeModeTab.register(modEventBus);
-
-        modOreItem.init();
 
         MinecraftForge.EVENT_BUS.register(this);
     }
