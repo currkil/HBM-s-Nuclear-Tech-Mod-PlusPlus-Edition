@@ -13,7 +13,7 @@ import java.util.Map;
  * 生成结果写入 {@code src/main/resources/data/hbms_ntm_pp/loot_tables/blocks/<方块名>.json}。
  * 掉落表固定为「掉落自身」，并附带 {@code survives_explosion} 条件（即被爆炸破坏时也正常掉落）。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modLootTablesGenerate {
 

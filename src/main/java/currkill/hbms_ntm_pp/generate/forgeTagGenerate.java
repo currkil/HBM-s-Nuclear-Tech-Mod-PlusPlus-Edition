@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
  * <p>
  * 生成的内容包括挖掘工具类型标签（镐／斧／锹／锄）与所需工具等级标签（石／铁／钻石）。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class forgeTagGenerate extends BlockTagsProvider {
 

@@ -13,7 +13,7 @@ import java.util.Map;
  * <p>
  * 注意：底层写出默认不覆盖已存在的文件，重复执行时需要 {@link modJsonWriter} 的覆盖模式。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modItemModelsGenerate {
 

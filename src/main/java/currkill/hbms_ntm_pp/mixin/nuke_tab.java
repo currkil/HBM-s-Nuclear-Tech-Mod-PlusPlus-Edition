@@ -21,7 +21,7 @@ import com.mojang.logging.LogUtils;
  * {@code GuiGraphics#blit} 调用实现：当被选中的物品栏是 {@link modCreativeModeTab#NUKE_TAB} 时
  * 绘制 {@link #NUKE_TAB_BG}，否则沿用原版背景。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 @Mixin(CreativeModeInventoryScreen.class)
 public class nuke_tab {

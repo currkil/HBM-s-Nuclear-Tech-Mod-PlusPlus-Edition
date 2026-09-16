@@ -9,7 +9,7 @@ package currkill.hbms_ntm_pp.generate;
  * <p>
  * 注意：底层写出默认不覆盖已存在的文件，重复执行不会更新已有文件。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modJsonGenerate {
 

@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
  * 饮用时必须持有 {@link modItems#BOTTLE_OPENER}，否则只会给出提示且不消耗可乐。
  * 成功饮用后会给予移动速度与急迫效果，并返还空瓶与瓶盖。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modColaItem  extends Item {
 

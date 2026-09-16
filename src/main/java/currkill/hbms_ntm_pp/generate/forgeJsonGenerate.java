@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
  * <p>
  * 本类由 {@code @Mod.EventBusSubscriber} 自动挂到模组事件总线，无需手动注册。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 @Mod.EventBusSubscriber(modid = Hbms_ntm_pp.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class forgeJsonGenerate {

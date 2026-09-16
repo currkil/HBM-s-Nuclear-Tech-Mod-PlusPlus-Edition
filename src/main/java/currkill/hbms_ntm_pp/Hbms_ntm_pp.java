@@ -1,11 +1,14 @@
 package currkill.hbms_ntm_pp;
 
 import com.mojang.logging.LogUtils;
+import currkill.hbms_ntm_pp.api.uninos.UniNodespace;
 import currkill.hbms_ntm_pp.registryBuilder.modDeferredRegisters;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 
 /**
@@ -49,4 +53,18 @@ public class Hbms_ntm_pp {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    /* 模组主要逻辑上方 */
+    /* 其他逻辑写在下方 */
+
+    /**
+     * 每个服务器tick驱动一次节点空间更新，UNINOS 的节点连接与网络调度都在这里发生
+     * @param event 服务器tick事件
+     */
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if(event.phase != TickEvent.Phase.END) return;
+
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        if(server != null) UniNodespace.updateNodespace(server);
+    }
 }

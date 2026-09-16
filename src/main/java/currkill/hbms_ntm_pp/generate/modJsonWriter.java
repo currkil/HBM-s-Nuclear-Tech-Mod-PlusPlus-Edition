@@ -13,7 +13,7 @@ import java.nio.file.Path;
  * 是 {@link modItemModelsGenerate}、{@link modBlockModelsAndItemModelsGenerate} 与
  * {@link modLootTablesGenerate} 共同的底层写出入口。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modJsonWriter {
 

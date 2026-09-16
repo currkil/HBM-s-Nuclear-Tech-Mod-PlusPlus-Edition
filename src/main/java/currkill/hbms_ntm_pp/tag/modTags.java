@@ -21,7 +21,7 @@ import java.util.*;
  * （对应挖掘工具类型）以及 {@code stone}、{@code iron}、{@code diamond}
  * （对应挖掘所需的工具等级）；传入其它标识不会产生任何效果。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modTags {
 

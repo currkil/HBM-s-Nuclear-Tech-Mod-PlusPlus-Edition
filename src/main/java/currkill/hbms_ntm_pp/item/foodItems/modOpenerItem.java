@@ -25,7 +25,7 @@ import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
  * 除了作为饮用核子可乐所需的工具，它本身也是一件武器：主手持有时会提供额外的攻击伤害，
  * 命中目标时还有概率附加负面效果。
  *
- * @author currkill-deepseek
+ * @author currkill
  */
 public class modOpenerItem extends Item {
 
