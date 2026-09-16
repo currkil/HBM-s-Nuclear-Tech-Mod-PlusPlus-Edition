@@ -131,6 +131,7 @@ public class modRegistryBuilder {
      */
     public static class InnerBlockBuilder {
         protected final String name;
+        protected Function<BlockBehaviour.Properties, Block> factory = Block::new;
         protected MapColor color = MapColor.STONE;
         protected SoundType sound = SoundType.STONE;
         protected float hardness = 1.0f;
@@ -146,6 +147,15 @@ public class modRegistryBuilder {
          */
         InnerBlockBuilder(String name) {
             this.name = name;
+        }
+
+        /**
+         * 设置物品的实例化方式，用于注册{@link Block}的子类
+         * @param factory 接受{@link BlockBehaviour.Properties}并返回物品实例的工厂
+         */
+        public InnerBlockBuilder factory(Function<BlockBehaviour.Properties, Block> factory) {
+            this.factory = factory;
+            return this;
         }
 
         /**
@@ -220,7 +230,7 @@ public class modRegistryBuilder {
          */
         public RegistryObject<Block> register() {
             RegistryObject<Block> blockRO = BLOCK.register(name,
-                    () -> new Block(BlockBehaviour.Properties.of()
+                    () -> factory.apply(BlockBehaviour.Properties.of()
                             .mapColor(color)
                             .sound(sound)
                             .strength(hardness,resistance)));

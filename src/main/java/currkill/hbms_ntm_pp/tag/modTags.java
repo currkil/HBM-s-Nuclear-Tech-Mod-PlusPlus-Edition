@@ -1,7 +1,13 @@
 package currkill.hbms_ntm_pp.tag;
 
+import currkill.hbms_ntm_pp.Hbms_ntm_pp;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -40,22 +46,68 @@ public class modTags {
     /** 至少需要钻石质工具才能挖掘的方块。 */
     public static final List<RegistryObject<Block>> NEEDS_DIAMOND = new ArrayList<>();
 
+    /** 自定义Tag。 */
+    public static final Map<String, List<RegistryObject<Block>>> TAGS = new HashMap<>();
+
+    /** 自定义Tag(String)到实际的Tag(TagKey)的映射 */
+    public static final Map<String, TagKey<Block>> CUSTOM_TAG_KEYS = new HashMap<>();
+
+    /**
+     * 查询字符串对应的TagKey
+     * @param tag 字符串tag标签
+     * @return 对应的 {@link TagKey<Block>} ，若无返回空
+     */
+    @Nullable
+    public static TagKey<Block> getTagKey(@NotNull String tag) {
+        return CUSTOM_TAG_KEYS.get(tag);
+    }
+
+    /**
+     * 查询字符串是否对应TagKey
+     * @param tag 字符串tag标签
+     * @return 是否有对应的TagKey
+     */
+    public static boolean hasTagKey(@NotNull String tag) {
+        return CUSTOM_TAG_KEYS.containsKey(tag);
+    }
+
     /**
      * 按标识把一个方块投入对应的标签集合，可一次传入多个标识。
      *
-     * @param Object 待归类的方块注册对象
+     * @param object 待归类的方块注册对象
      * @param tags   标签标识，可用取值见类文档
      */
-    public static void addBlockToTag(RegistryObject<Block> Object, String... tags) {
+    public static void addBlockToTag(RegistryObject<Block> object, String... tags) {
+        addBlockToTag(object, false, tags);
+    }
+
+    /**
+     * 按标识把一个方块投入对应的标签集合，可一次传入多个标识，可选择是否自动创建{@link TagKey}。
+     *
+     * @param object 待归类的方块注册对象
+     * @param tags   标签标识，可用取值见类文档
+     */
+    public static void addBlockToTag(RegistryObject<Block> object, boolean autoBuild,
+                                     String... tags) {
         for (String tag : tags) {
             switch (tag) {
-                case "pickaxe" -> PICKAXE_BLOCKS.add(Object);
-                case "axe" -> AXE_BLOCKS.add(Object);
-                case "shovel" -> SHOVEL_BLOCKS.add(Object);
-                case "hoe" -> HOE_BLOCKS.add(Object);
-                case "stone" -> NEEDS_STONE.add(Object);
-                case "iron" -> NEEDS_IRON.add(Object);
-                case "diamond" -> NEEDS_DIAMOND.add(Object);
+                case "pickaxe" -> PICKAXE_BLOCKS.add(object);
+                case "axe" -> AXE_BLOCKS.add(object);
+                case "shovel" -> SHOVEL_BLOCKS.add(object);
+                case "hoe" -> HOE_BLOCKS.add(object);
+                case "stone" -> NEEDS_STONE.add(object);
+                case "iron" -> NEEDS_IRON.add(object);
+                case "diamond" -> NEEDS_DIAMOND.add(object);
+                default -> {
+                    if(autoBuild){
+                        CUSTOM_TAG_KEYS.computeIfAbsent(tag, k ->
+                                BlockTags.create(ResourceLocation.parse(Hbms_ntm_pp.MODID)));
+                    }
+                    if(hasTagKey(tag))
+                        TAGS.computeIfAbsent(tag, k -> new ArrayList<>()).add(object);
+                    else
+                        Hbms_ntm_pp.LOGGER.atDebug().log("Don't have TagKey for Tag:"+tag);
+                }
             }
         }
     }

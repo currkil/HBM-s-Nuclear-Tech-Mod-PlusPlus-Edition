@@ -32,7 +32,7 @@ public class Hbms_ntm_pp {
     public static final String MODID = "hbms_ntm_pp";
 
     /** 本模组的日志记录器。 */
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     /**
      * 模组入口构造函数，由 Forge 在加载阶段调用。
@@ -40,9 +40,8 @@ public class Hbms_ntm_pp {
      * 方块与物品统一交给{@link modDeferredRegisters#register_all(IEventBus)}注册，
      * 创造模式物品栏则单独登记。
      */
-    @SuppressWarnings("removal")
-    public Hbms_ntm_pp() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Hbms_ntm_pp(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
 
         modDeferredRegisters.register_all(modEventBus);
         modCreativeModeTab.register(modEventBus);

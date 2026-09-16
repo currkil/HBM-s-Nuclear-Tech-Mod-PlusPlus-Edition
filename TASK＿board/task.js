@@ -1,10 +1,12 @@
 const STATUSES = ["TODO", "DOING", "DONE", "BLOCKED"];
 const DB_NAME = "hbm-taskboard";
 const STORE = "handles";
+const WARN_MARK = "# === WARNINGS ===";
 
 let fileHandle = null;
 let lines = [];
 let tasks = [];
+let warnings = [];
 let filter = "ALL";
 
 /* ================= 解析 / 序列化 ================= */
@@ -18,6 +20,13 @@ function parseTasks(rawLines) {
       /^\[(TODO|DOING|DONE|BLOCKED)\]\s*@([^-]+?)\s*-\s*(.+?)\s*-\s*(.+?)\s*-\s*(.+?)\s*-\s*(.+?)(?:\s*::\s*(.*))?$/
     );
     if (!m) return;
+    let note = (m[7] || "").trim();
+    let anno = "";
+    const annoMatch = note.match(/@(即将过时|已过时|实验性|待审查)\s*$/);
+    if (annoMatch) {
+      anno = annoMatch[1];
+      note = note.replace(/@(即将过时|已过时|实验性|待审查)\s*$/, "").trim();
+    }
     result.push({
       lineIndex: idx,
       status: m[1],
@@ -26,18 +35,69 @@ function parseTasks(rawLines) {
       origin: m[4].trim(),
       target: m[5].trim(),
       dep: m[6].trim(),
-      note: (m[7] || "").trim(),
+      note,
+      anno,
+    });
+  });
+  return result;
+}
+
+function parseWarnings(rawLines) {
+  const result = [];
+  let inWarn = false;
+  rawLines.forEach((line) => {
+    const t = line.trim();
+    if (t === WARN_MARK) { inWarn = true; return; }
+    if (!inWarn) return;
+    if (!t || t.startsWith("#")) return;
+    const m = t.match(/^\[(WARN|INFO|ERROR)\]\s*(.+?)(?:\s*::\s*(.*))?$/);
+    if (!m) return;
+    result.push({
+      level: m[1],
+      text: m[2].trim(),
+      target: (m[3] || "").trim(),
     });
   });
   return result;
 }
 
 function taskToLine(t) {
-  return `[${t.status}]@${t.who} - ${t.name} - ${t.origin} - ${t.target} - ${t.dep} :: ${t.note}`;
+  let note = t.note || "";
+  if (t.anno) note = (note ? note + " " : "") + "@" + t.anno;
+  return `[${t.status}]@${t.who} - ${t.name} - ${t.origin} - ${t.target} - ${t.dep} :: ${note}`;
+}
+
+function warningToLine(w) {
+  return `[${w.level}] ${w.text}${w.target ? " :: " + w.target : ""}`;
 }
 
 function rebuildLines() {
   for (const t of tasks) lines[t.lineIndex] = taskToLine(t);
+
+  // 重建 WARNINGS 区
+  const warnIdx = lines.findIndex((l) => l.trim() === WARN_MARK);
+  if (warnIdx === -1) {
+    lines.push("");
+    lines.push(WARN_MARK);
+    lines.push("# 格式：[警告等级] 内容 :: 影响的任务名（可选）");
+    for (const w of warnings) lines.push(warningToLine(w));
+  } else {
+    // 删除旧警告行（WARN_MARK 后的非注释行）
+    let end = warnIdx + 1;
+    while (end < lines.length) {
+      const t = lines[end].trim();
+      if (t === "" || t.startsWith("#") || /^\[(WARN|INFO|ERROR)\]/.test(t)) end++;
+      else break;
+    }
+    const head = lines.slice(0, warnIdx + 1).filter((l, i) => {
+      if (i <= warnIdx) return true;
+      return false;
+    });
+    const headerComments = ["# 格式：[警告等级] 内容 :: 影响的任务名（可选）"];
+    const warnLines = warnings.map(warningToLine);
+    const tail = lines.slice(end);
+    lines = [...lines.slice(0, warnIdx + 1), ...headerComments, ...warnLines, ...tail];
+  }
 }
 
 /* ================= 渲染 ================= */
@@ -74,6 +134,7 @@ function render() {
         <div class="path">${esc(t.origin)} → ${esc(t.target)}</div>
         ${t.dep && t.dep !== "无" ? `<div class="dep">依赖: ${esc(t.dep)}</div>` : ""}
         ${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}
+        ${t.anno ? `<div class="anno">@${esc(t.anno)}</div>` : ""}
         <div class="actions"></div>
       `;
       const actions = card.querySelector(".actions");
@@ -120,9 +181,51 @@ function render() {
         );
       }
 
+      actions.appendChild(
+        mkBtn("注解", () =>
+          openModal("设置注解", [
+            { key: "anno", label: "注解（留空取消）", value: t.anno || "" },
+          ], (v) => {
+            t.anno = v.anno.trim();
+            rebuildLines();
+            render();
+            return true;
+          })
+        )
+      );
+
       box.appendChild(card);
     }
   }
+
+  renderWarnings();
+}
+
+function renderWarnings() {
+  const box = document.getElementById("warnList");
+  if (!box) return;
+  if (!warnings.length) {
+    box.innerHTML = '<div class="empty">无警告</div>';
+    return;
+  }
+  box.innerHTML = warnings
+    .map(
+      (w, i) => `
+      <div class="warn-item ${w.level.toLowerCase()}">
+        <span class="warn-level">${esc(w.level)}</span>
+        <span class="warn-text">${esc(w.text)}</span>
+        ${w.target ? `<span class="warn-target">→ ${esc(w.target)}</span>` : ""}
+        <button class="warn-del" data-i="${i}">删除</button>
+      </div>`
+    )
+    .join("");
+  box.querySelectorAll(".warn-del").forEach((btn) => {
+    btn.onclick = () => {
+      warnings.splice(Number(btn.dataset.i), 1);
+      rebuildLines();
+      render();
+    };
+  });
 }
 
 function mkBtn(text, fn) {
@@ -218,11 +321,13 @@ async function loadFromHandle(handle, needPermission = true) {
   const text = await file.text();
   lines = text.split(/\r?\n/);
   tasks = parseTasks(lines);
+  warnings = parseWarnings(lines);
   fileHandle = handle;
   await idbSet("lastFile", handle);
   setStatus("已打开: " + file.name);
   document.getElementById("btnSave").disabled = false;
   document.getElementById("btnAdd").disabled = false;
+  document.getElementById("btnAddWarn").disabled = false;
   render();
 }
 
@@ -254,7 +359,7 @@ async function saveFile() {
   setStatus("已保存 ✓ " + new Date().toLocaleTimeString());
 }
 
-/* ================= 新增任务 ================= */
+/* ================= 新增任务 / 警告 ================= */
 
 function addTask() {
   openModal(
@@ -265,19 +370,39 @@ function addTask() {
       { key: "target", label: "目标包名", value: "com.xxx." },
       { key: "dep", label: "依赖（没有填 无）", value: "无" },
       { key: "note", label: "备注（可空）", value: "", multiline: true },
+      { key: "anno", label: "注解（可空，如 即将过时 / 已过时）", value: "" },
     ],
     (v) => {
       if (!v.name.trim()) return false;
-      const newLine = `[TODO]@未认领 - ${v.name.trim()} - ${v.origin.trim()} - ${v.target.trim()} - ${v.dep.trim()} :: ${v.note.trim()}`;
+      const newLine = `[TODO]@未认领 - ${v.name.trim()} - ${v.origin.trim()} - ${v.target.trim()} - ${v.dep.trim()} :: ${v.note.trim()}${v.anno.trim() ? " @" + v.anno.trim() : ""}`;
       let insertAt = lines.length;
-      for (let i = 5; i < lines.length; i++) {
-        if (lines[i].trim().startsWith("# ===")) {
-          insertAt = i;
-          break;
-        }
-      }
+      const warnIdx = lines.findIndex((l) => l.trim() === WARN_MARK);
+      if (warnIdx !== -1) insertAt = warnIdx;
       lines.splice(insertAt, 0, newLine);
       tasks = parseTasks(lines);
+      warnings = parseWarnings(lines);
+      render();
+      return true;
+    }
+  );
+}
+
+function addWarning() {
+  openModal(
+    "新增警告",
+    [
+      { key: "level", label: "等级（WARN / INFO / ERROR）", value: "WARN" },
+      { key: "text", label: "内容", value: "" },
+      { key: "target", label: "影响任务（可空）", value: "" },
+    ],
+    (v) => {
+      if (!v.text.trim()) return false;
+      warnings.push({
+        level: v.level.trim().toUpperCase(),
+        text: v.text.trim(),
+        target: v.target.trim(),
+      });
+      rebuildLines();
       render();
       return true;
     }
@@ -290,6 +415,7 @@ async function init() {
   document.getElementById("btnOpen").onclick = openFile;
   document.getElementById("btnSave").onclick = saveFile;
   document.getElementById("btnAdd").onclick = addTask;
+  document.getElementById("btnAddWarn").onclick = addWarning;
 
   document.querySelectorAll("button[data-filter]").forEach((btn) => {
     btn.onclick = () => {
@@ -302,7 +428,6 @@ async function init() {
     };
   });
 
-  // 尝试取回上次的文件句柄
   try {
     const handle = await idbGet("lastFile");
     if (handle) {

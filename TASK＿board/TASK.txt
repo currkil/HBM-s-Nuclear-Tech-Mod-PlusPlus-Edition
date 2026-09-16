@@ -3,3 +3,9 @@
 [TODO]@待认领 - 能量网络与节点层 - api.hbm.energymk2(PowerNetMK2,Nodespace) - currkill.hbms_ntm_pp.api.energy.he - 能量API接口层 :: 需先移植 com.hbm.uninos 框架(GenNode/NodeNet/UniNodespace/PowerNetProvider)，再补 IEnergyConductorMK2.createNode 与 tryProvide/trySubscribe 的网络注册逻辑
 [TODO]@待认领 - 矿石注册形态化重构 - - currkill.hbms_ntm_pp.block.modOres - 无 :: 引入「矿石形态」枚举(普通/矿簇/深层矿簇)与基础矿物，据此批量生成注册名与贴图名，取代当前 9 个硬编码字段
 [DONE]@currkill-deepseek - 重构注册器 - - currkill.hbms_ntm_pp.registryBuilder - 无 :: 完善方块与物品的流式构造器，并把 modBlocks/modItems/modOreItem/modOres 全部迁移到流式构造器
+[DOING]@currkill-deepseek - 完善uninos模块 - com.hbm.uninos - currkill.hbms_ntm_pp.api.uninos - 无 :: 移植UNINOS核心(INetworkProvider/GenNode/NodeNet/UniNodespace)与Rebar/Foundry/Klystron/Plasma四个空网络；PowerNetProvider/FluidNetProvider/PneumaticNetworkProvider待各自系统移植后再补
+
+# === WARNINGS ===
+# 格式：[警告等级] 内容 :: 影响的任务名（可选）
+[WARN] 能量 API 接口层尚未稳定，改动可能影响下游 :: 能量系统完成,
+[WARN] 请重构所有方块，使用流式构造器 :: 矿石注册形态化重构,重构注册器

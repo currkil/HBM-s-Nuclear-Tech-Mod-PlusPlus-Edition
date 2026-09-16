@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>HBM 移植任务板</title>
-<link rel="stylesheet" href="task.css">
+  <meta charset="UTF-8">
+  <title>HBM 移植任务板</title>
+  <link rel="stylesheet" href="task.css">
 </head>
 <body>
 
@@ -14,6 +14,7 @@
     <button id="btnReconnect" disabled>重连上次文件</button>
     <button id="btnSave" class="primary" disabled>保存</button>
     <button id="btnAdd" disabled>新增任务</button>
+    <button id="btnAddWarn" disabled>新增警告</button>
     <span id="fileStatus" class="status">未打开文件</span>
   </div>
   <div class="toolbar">
@@ -33,7 +34,11 @@
   <section class="col" data-col="BLOCKED"><h2>BLOCKED <span id="c-BLOCKED">0</span></h2><div id="l-BLOCKED"></div></section>
 </main>
 
-<!-- 通用弹窗：认领 / 阻塞 / 新增 都用它 -->
+<section class="warn-panel">
+  <h2>警告区 <span id="warnCount"></span></h2>
+  <div id="warnList"></div>
+</section>
+
 <div class="modal-mask" id="modalMask">
   <div class="modal">
     <h3 id="modalTitle">标题</h3>
