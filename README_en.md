@@ -4,9 +4,10 @@
 
 **This is an unofficial, faithful port of the classic 1.7.10 HBM Nuclear Tech Mod to Minecraft 1.20.1.**
 
-English (Current) / [Chinese](/README_en.md)
+English (Current) / [Chinese](/README.md)
 
 This project is based on the code and design of [HBM's original mod](https://github.com/HbmMods/Hbm-s-Nuclear-Tech-Mod-GIT), with the goal of **migrating the complete gameplay and content of the original 1.7.10 version to the high-version platform, following the survival progression order, with the tenet of keeping it "as-is".**
+
 > [!caution]
 > This project is currently in early development. It is recommended to use it in a test environment.
 
@@ -14,13 +15,19 @@ This project is based on the code and design of [HBM's original mod](https://git
 > This project is currently under gradual development. It is not recommended for play. Please wait until development is more complete before experiencing it.
 
 ## Porting Goals
+
 - **Gameplay Recreation**: Fully retain all tech trees, machines, weapons, radiation systems, and multiblock structures from the original 1.7.10 version.
 - **Experience Optimization**: Adapt to the high-version Forge API without changing core mechanics, improving stability and performance.
 - **Survival First**: Gradually implement all content according to the original version's survival progression order.
 
 ## Q&A
+
 - Q1: Can this mod be played in survival?
 - A1: Currently, no.
+- Q2: Will there be any official addons for this mod?
+- A2: There are currently plans to develop HBM's Nuclear Tech Mod: Plus Plus Space Edition alongside the mod once the basic API is complete.
+- Q3: When will it be finished?
+- A3: ~~114514 years~~
 
 ## Developer Guide
 
@@ -50,7 +57,15 @@ This project uses Minecraft Forge 1.20.1 and Gradle, requiring JDK 17 or above.
 > [!important]
 > This project is a derivative work of **HBM's Nuclear Tech Mod** and strictly adheres to its **GNU General Public License v3.0**.
 
+**Note!** This project is a derivative work of **HBM's Nuclear Tech Mod**. The textures and other art assets of this project fall into two categories:
+
+- Assets from the original HBM's Nuclear Tech Mod: their licensing status is **unclear**. This port project cannot grant permission for these assets. If you wish to use them, please contact the original authors to confirm.
+- Assets newly created for this project: licensed under **CC-BY-SA 4.0**.
+
+### Acknowledgements
+
 - **Original Mod Author**: [HbmMods](https://github.com/HbmMods) and all contributors to the 1.7.10 version.
 - **Special Tribute**: To all community developers who have explored high-version ports of the HBM mod.
+- **Special Tribute**: To the developers who ported this HBM mod, and to DeepSeek.
 
-For detailed license information, please see the [LICENSE](./LICENSE) file in this repository.
+For detailed license information, please see the [LICENSE](./LICENSE) and [LICENSE_RESOURCES](./LICENSE_RESOURCES) files in this repository.

@@ -54,7 +54,13 @@
 > [!important]
 > 本项目是 **HBM's Nuclear Tech Mod** 的衍生作品，严格遵守其 **GNU General Public License v3.0** 许可。
 
+注意！本项目是 **HBM's Nuclear Tech Mod** 的衍生作品，本项目的贴图等美术资源分为两类
+- HBM's Nuclear Tech Mod原本的资源文件，授权状态未明确，本移植项目无法代为授权这些资源，使用者如需使用，请自行联系原作者确认。
+- 本项目自行补充的资源文件，遵守 **CC-BY-SA 4.0** 许可协议
+
+致谢
 - **原始模组作者**: [HbmMods](https://github.com/HbmMods) 及所有 1.7.10 版本的贡献者。
 - **特别致敬**: 所有为 HBM 模组高版本移植做出探索的社区开发者。
+- **特别致敬**: 为该 HBM 模组移植的开发者与DeepSeek。
 
-详细的许可证信息请见本仓库的 [LICENSE](./LICENSE) 文件。
+详细的许可证信息请见本仓库的 [LICENSE](./LICENSE)与[LICENSE_RESOURCES](./LICENSE_RESOURCES) 文件。
