@@ -1,5 +1,6 @@
 package currkill.hbms_ntm_pp.api.energy.he;
 
+import currkill.hbms_ntm_pp.api.tile.ILoadedTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,13 +13,10 @@ import net.minecraft.world.phys.Vec3;
  * <p>
  * <b>请勿直接实现本接口！</b>它只是供电方与受电方的公共祖先，用于把这部分行为从线缆中排除出去。
  * 实际使用时请实现 {@link IEnergyProviderMK2} 或 {@link IEnergyReceiverMK2}。
- * <p>
- * 待办：HBM 的声明还继承了 {@code api.hbm.tile.ILoadedTile}，该接口属于方块实体 API，
- * 尚未移植，故此处暂时省略。
  *
  * @author currkill-deepseek
  */
-public interface IEnergyHandlerMK2 extends IEnergyConnectorMK2 {
+public interface IEnergyHandlerMK2 extends IEnergyConnectorMK2, ILoadedTile {
 
 	/**
 	 * 获取当前已存储的能量。

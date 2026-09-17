@@ -4,7 +4,6 @@ import currkill.hbms_ntm_pp.Hbms_ntm_pp;
 import currkill.hbms_ntm_pp.tag.modTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.BlockTagsProvider;
@@ -14,15 +13,19 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * 方块标签的数据生成器。
  * <p>
- * 把 {@link modTags} 中按用途收集的方块列表写成实际的标签 JSON，输出到
- * {@code src/generated/resources} 下。由 {@link forgeJsonGenerate} 在数据生成阶段注册。
+ * 把{@link modTags}收集到的全部标签写成实际的标签JSON，输出到{@code src/generated/resources}下。
+ * 由{@link forgeJsonGenerate}在数据生成阶段注册。
+ * </p>
  * <p>
- * 生成的内容包括挖掘工具类型标签（镐／斧／锹／锄）与所需工具等级标签（石／铁／钻石）。
+ * 这里不区分内建标签与自定义标签：{@link modTags}以标签本身为键收集，本类直接遍历写出，
+ * 因此新增标签只需要在收集阶段登记，不需要改动本类。
+ * </p>
  *
  * @author currkill
  */
@@ -40,20 +43,15 @@ public class forgeTagGenerate extends BlockTagsProvider {
     }
 
     /**
-     * 登记本模组的所有方块标签。
+     * 登记本模组收集到的所有方块标签。
      *
      * @param provider 注册表查找上下文
      */
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        addToTag(BlockTags.MINEABLE_WITH_PICKAXE, modTags.PICKAXE_BLOCKS);
-        addToTag(BlockTags.MINEABLE_WITH_AXE, modTags.AXE_BLOCKS);
-        addToTag(BlockTags.MINEABLE_WITH_SHOVEL, modTags.SHOVEL_BLOCKS);
-        addToTag(BlockTags.MINEABLE_WITH_HOE, modTags.HOE_BLOCKS);
-
-        addToTag(BlockTags.NEEDS_STONE_TOOL, modTags.NEEDS_STONE);
-        addToTag(BlockTags.NEEDS_IRON_TOOL, modTags.NEEDS_IRON);
-        addToTag(BlockTags.NEEDS_DIAMOND_TOOL, modTags.NEEDS_DIAMOND);
+        for(Map.Entry<TagKey<Block>, List<RegistryObject<Block>>> entry : modTags.TAGS.entrySet()) {
+            addToTag(entry.getKey(), entry.getValue());
+        }
     }
 
     /**

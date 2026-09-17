@@ -39,14 +39,16 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 	/**
 	 * 尝试向指定的相邻方块供电。
 	 * <p>
-	 * 当相邻方块是允许直连的受电方时，直接按双方速率与剩余容量的较小值完成一次传输，
-	 * 并把未能送出的部分退回。
+	 * 分两种情况处理：
+	 * <ul>
+	 *   <li>相邻方块是可连接的线缆时，把本供电方注册到该线缆所在的电网，
+	 *       之后由电网在每个tick统一调度；</li>
+	 *   <li>相邻方块是允许直连的受电方时，立即按双方速率与剩余容量的较小值完成一次传输，
+	 *       并把未能送出的部分退回。</li>
+	 * </ul>
 	 * <p>
 	 * HBM 原签名为 {@code tryProvide(World world, int x, int y, int z, ForgeDirection dir)}，
 	 * 在 1.20.1 中映射为 {@link Level} 加目标相邻方块的 {@link BlockPos}。
-	 * <p>
-	 * 待办：当相邻方块是接受该方向连接的 {@link IEnergyConductorMK2} 时，
-	 * 应通过 Nodespace 把本供电方注册到其所在的电网；电网层尚未移植。
 	 * <p>
 	 * 待办：HBM 在 {@code particleDebug} 开启时会发送 {@code AuxParticlePacketNT} 的
 	 * "network"/"power" 粒子，该逻辑依赖尚未移植的网络包与线程系统。
@@ -58,6 +60,16 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 	default void tryProvide(Level level, BlockPos pos, Direction dir) {
 
 		BlockEntity te = level.getBlockEntity(pos);
+
+		// 相邻方块是线缆时，把自己登记到它所在的电网
+		if(te instanceof IEnergyConductorMK2 con) {
+			if(con.canConnect(dir.getOpposite())) {
+				Nodespace.PowerNode node = Nodespace.getNode(level, pos);
+				if(node != null && node.net != null) {
+					node.net.addProvider(this);
+				}
+			}
+		}
 
 		if(te instanceof IEnergyReceiverMK2 rec && te != this) {
 			if(rec.canConnect(dir.getOpposite()) && rec.allowDirectProvision()) {

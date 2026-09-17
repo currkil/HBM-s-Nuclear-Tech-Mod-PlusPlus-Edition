@@ -1,8 +1,10 @@
 package currkill.hbms_ntm_pp.api.energy.he;
 
+import currkill.hbms_ntm_pp.api.uninos.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * HE 能量网络中「受电方」接口。
@@ -58,12 +60,6 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	 * HBM 原签名为 {@code trySubscribe(World world, int x, int y, int z, ForgeDirection dir)}，
 	 * 在 1.20.1 中映射为 {@link Level} 加相邻方块的 {@link BlockPos}。
 	 * <p>
-	 * 待办：当相邻方块是接受该方向连接的 {@link IEnergyConductorMK2} 时，
-	 * 应通过 Nodespace 把本受电方注册到其所在的电网；电网层尚未移植。
-	 * <p>
-	 * 待办：HBM 另有基于 {@code DirPos} 的重载 {@code trySubscribe(World world, DirPos pos)}，
-	 * 它只是转发到本方法；{@code DirPos} 位于 {@code com.hbm.util.fauxpointtwelve}，需另行移植。
-	 * <p>
 	 * 待办：HBM 在 {@code particleDebug} 开启时会发送 {@code AuxParticlePacketNT} 的
 	 * "network"/"power" 粒子，该逻辑依赖尚未移植的网络包与线程系统。
 	 *
@@ -72,6 +68,29 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	 * @param dir   从本方块指向该相邻方块的方向
 	 */
 	default void trySubscribe(Level level, BlockPos pos, Direction dir) {
+
+		BlockEntity te = level.getBlockEntity(pos);
+
+		if(te instanceof IEnergyConductorMK2 con) {
+			if(!con.canConnect(dir.getOpposite())) return;
+
+			Nodespace.PowerNode node = Nodespace.getNode(level, pos);
+			if(node != null && node.net != null) {
+				node.net.addReceiver(this);
+			}
+		}
+	}
+
+	/**
+	 * 尝试把本受电方注册到相邻线缆所在的电网，目标以{@link DirPos}给出。
+	 * <p>
+	 * HBM 中该重载只是转发到上面的方法，这里保持一致。
+	 *
+	 * @param level 所在世界
+	 * @param pos   目标连接点
+	 */
+	default void trySubscribe(Level level, DirPos pos) {
+		trySubscribe(level, pos.pos(), pos.getDir());
 	}
 
 	/**
@@ -79,14 +98,18 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	 * <p>
 	 * HBM 原签名为 {@code tryUnsubscribe(World world, int x, int y, int z)}。
 	 * <p>
-	 * 待办：应取出 {@code pos} 处的节点并把本受电方从其电网移除。
-	 * HBM 的原始实现本身就是错的（它调用的是 {@code con.createNode()} 而非查找节点），
-	 * 待 UNINOS 落地后此处会重写。
+	 * 说明：HBM 的原始实现是错的——它调用了 {@code con.createNode()} 去新建节点，
+	 * 而不是查找既有节点，因此实际上什么也注销不掉。这里改为按位置查找节点并直接移除，
+	 * 这是本项目有意做出的修正。
 	 *
 	 * @param level 所在世界
 	 * @param pos   原先连接的线缆位置
 	 */
 	default void tryUnsubscribe(Level level, BlockPos pos) {
+		Nodespace.PowerNode node = Nodespace.getNode(level, pos);
+		if(node != null && node.net != null) {
+			node.net.removeReceiver(this);
+		}
 	}
 
 	/**
