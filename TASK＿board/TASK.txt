@@ -5,7 +5,7 @@
 [DONE]@currkill-deepseek - 重构注册器 - - currkill.hbms_ntm_pp.registryBuilder - 无 :: 完善方块与物品的流式构造器，并把 modBlocks/modItems/modOreItem/modOres 全部迁移到流式构造器
 [DONE]@currkill-deepseek - 完善uninos模块 - com.hbm.uninos - currkill.hbms_ntm_pp.api.uninos - 无 :: 移植UNINOS核心(INetworkProvider/GenNode/NodeNet/UniNodespace)与Rebar/Foundry/Klystron/Plasma四个空网络；PowerNetProvider/FluidNetProvider/PneumaticNetworkProvider待各自系统移植后再补
 [DONE]@currkill-deepseek - 重构tag生成 - - currkill.hbms_ntm_pp.tag - 无 :: 把7份并列的方块列表统一成按TagKey索引的单一表，修好自定义标签TagKey创建时丢掉标签名的bug，并让数据生成阶段写出全部标签（含自定义）
-[DOING]@currkill-deepseek - 创造HE发电机与能量表 - - currkill.hbms_ntm_pp.block.machine - 能量网络与节点层 :: 创造模式HE发电机(恒满载，向六面供电)与创造模式HE能量表(挂节点入网，右键显示电网总储能与HE/tick)
+[DONE]@currkill-deepseek - 创造HE发电机与能量表 - - currkill.hbms_ntm_pp.block.machine - 能量网络与节点层 :: 创造模式HE发电机(恒满载，向六面供电)与创造模式HE能量表(挂节点入网，右键显示电网总储能与HE/tick)
 
 # === WARNINGS ===
 # 格式：[警告等级] 内容 :: 影响的任务名（可选）

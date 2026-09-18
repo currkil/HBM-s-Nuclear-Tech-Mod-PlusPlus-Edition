@@ -28,6 +28,8 @@
   "block.hbms_ntm_pp.cluster_copper_ore": "铜矿簇",
   "block.hbms_ntm_pp.cluster_titanium_ore": "钛矿簇",
   "block.hbms_ntm_pp.struct_launcher": "发射台部件",
+  "block.hbms_ntm_pp.creative_energy_generator": "创造模式HE发电机",
+  "block.hbms_ntm_pp.creative_energy_meter": "创造模式HE能量表",
 
   "itemGroup.consumable_tab": "HBM食物和装备",
   "itemGroup.block_tab": "HBM矿石和方块",
@@ -39,5 +41,7 @@
   "itemGroup.template_tab": "HBM模板",
   "itemGroup.weapon_tab": "HBM武器和炮塔",
 
-  "message.no_opener": "你需要一个开瓶器。"
+  "message.no_opener": "你需要一个开瓶器。",
+  "message.creative_energy_meter.no_network": "该能量表未连接到任何电网。",
+  "message.creative_energy_meter.info": "电网最大储能：%s HE　当前使用：%s HE/tick"
 }
